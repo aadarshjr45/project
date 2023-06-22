@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+ {% block title %}
+    <title>Edit Profile</title>
+    {% endblock title %}
+
+{% block content %}
+<form method="post" action="" enctype="multipart/form-data" class="form-group"> {% csrf_token %}
+<div class="container-fluid m-5 mt-2">
+            
+               <div class="row"> 
+            <h2>Update Profile</h2>
+            <div class="col-8">
+
+            <div class="form-control col-5">
+                
+                {% for field in form %}
+                {{ field.label_tag }}
+                {{ field }}
+                <span class="text text-danger">
+                    {{field.errors}}
+                </span>
+                 
+                <input type="hidden" value='{{request.user}}' readonly>
+
+                <br>
+                {% endfor %}
+                
+                <button type="submit" class="btn btn-primary col-5">Update Profile</button>
+            </div>
+            </div>
+            </div>
+</div>
+</form>
+
+{% endblock %}

@@ -1,0 +1,46 @@
+
+{% extends 'base.html' %}
+{% load static %}
+
+ {% block title %}
+    <title>My Company Details</title>
+    {% endblock title %}
+
+
+
+{% block content %}
+    {% if company %}
+    <div class="container-fluid">
+    <div class="row">
+    <h1>My Company</h1>   
+    
+        <div class="col-2 card  m-3">
+                    <div class="card-body">
+                        {% if company.logo %}
+            <div>
+            <img src="{{ company.logo.url }}"  style="width: 100px">
+            {% else %}
+            <img src="{% static 'blank.png' %}"  style="width: 100px">
+            </div>
+            {% endif %}
+                        <h5 class="mb-1">{{ company.company_name }}</h5>
+                  
+                    <p class="mb-1">{{ company.company_location }}</p>
+                    <p class="mb-1">{{ company.company_website }}</p>
+                    <hr>
+                    <a class="btn btn-primary" href="{% url 'employer:edit_company' company.id%}">Edit</a>
+                    <div>
+                 
+                </div>
+                
+              </div>
+              </div>
+         
+
+                          {% endif %}  
+                    
+           
+                    </div>
+{% endblock %}
+
+

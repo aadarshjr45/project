@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+ {% block title %}
+    <title>Post a job</title>
+    {% endblock title %}
+
+{% block content %}
+{% if request.user.is_authenticated and request.user.is_employer%}
+<form method="post" action="" enctype="multipart/form-data" class="form-group"> {% csrf_token %}
+<div class="container-fluid m-5 mt-2">
+            
+                <div class="row ml-5">
+            <h1>Post a Job</h1>
+            <div class="col-10">
+
+            <div class="form-control"> 
+                 <input class="form-control" value="{{request.user.id}}" type="hidden">
+           
+
+               
+                
+                {% for field in form %}
+                {{ field.label_tag }}
+                {{ field }}
+
+                <span class="text text-danger">
+                    {{field.errors}}
+                </span>
+
+                <br>
+
+                {% endfor %}
+                Company Name:
+                <input class="form-control" name="company_name" value="{{company.company_name}}" type="text" readonly>
+                <br>
+                Company Location:
+                <input class="form-control" name="company_location" value="{{company.company_location}}" type="text" readonly>
+                <br>
+                Company Website:
+                <input class="form-control" name="company_website" value="{{company.company_website}}" type="text" readonly>
+                <br>
+                <button type="submit" class="btn btn-primary col-4">Post Job</button>
+            </div>
+            </div>
+            </div></div>
+</div>
+</form>
+{% else %}
+        <p>You need to be logged in as an Employer to post a job.</p>
+
+        {% endif %}
+{% endblock %}

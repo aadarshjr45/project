@@ -1,0 +1,59 @@
+
+{% extends 'base.html' %}
+
+    {% block title %}
+        <title>Applications</title>
+    {% endblock title %}
+
+
+    {% block content %}
+            {% if applications %}
+  
+                <div class="container-fluid m-5 mt-2">
+                <div class="row ">
+        <h1>Applications</h1>
+        
+            {% for application in applications %}
+           
+
+                <div class="col-2 card m-2">
+                <div class="card-body">
+
+                    <p class="mb-1">Resume: <a href="{{ application.resume.url }}">View Application </a></p>
+                    <p class="mb-1">Submitted For: {{ application.submitted_for }}</p>
+                    <p class="mb-1">Submitted By: {{ application.submitted_by }}</p>
+                    <p class="mb-1">Status: {{ application.status }}</p>
+                    <p class="mb-1"> Submitted On: {{ application.submitted_on|date:"F d, Y" }}</p>
+                       <br>
+                <div>
+            {% if application.status == "pending" %}                
+                <hr>
+                <a class="btn btn-success btn-sm col-5" href="{% url 'employer:accept_application' application.id %}"><span class="btn-label"></span><i class="bi bi-check"></i></span> Accept</a>
+                <a class="btn btn-danger btn-sm col-5" href="{% url 'employer:reject_application' application.id %}"><span class="btn-label"><i class="bi bi-x"></i></span> Reject</a>
+              
+            {% elif application.status == "rejected" %}
+                <hr>
+                <p>This application is rejected</p>   
+
+            {% elif application.status == "accepted" %}
+                <hr>
+                <p>This application is  accepted</p>              
+
+            {% endif %}
+                </div>
+                
+                </div>
+
+                </div>
+            
+            {% endfor %}
+
+                </div>
+                   
+
+            {% else %}
+                <p>No applications have been submitted yet.</p>
+            {% endif %}
+
+    {% endblock %}
+

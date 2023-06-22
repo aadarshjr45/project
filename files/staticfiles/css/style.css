@@ -1,0 +1,311 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@700&family=Roboto&display=swap');
+
+* {
+    padding: 0px;
+    margin: 0px;
+}
+
+.navbar-brand {
+    font-size: 20px;
+    font-family: 'Quicksand', sans-serif;
+}
+
+.nav-link {
+    font-size: 20px;
+}
+
+.nav-link:hover {
+    color: #E21818;
+    transition: 0.3s;
+}
+
+.button-600 {
+    align-items: center;
+    appearance: none;
+    background-color:#B6C6FF;
+    border: 1px solid #dbdbdb;
+    border-radius: .375em;
+    box-shadow: none;
+    box-sizing: border-box;
+    color: #363636;
+    cursor: pointer;
+    display: inline-flex;
+    font-family: BlinkMacSystemFont, -apple-system, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 1rem;
+    height: 2.5em;
+    justify-content: center;
+    line-height: 1.5;
+    padding: calc(.5em - 1px) 1em;
+    position: relative;
+    text-align: center;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    vertical-align: top;
+    white-space: nowrap;
+}
+
+.button-600:active {
+    border-color: #4a4a4a;
+    outline: 0;
+}
+
+.button-600:focus {
+    border-color: #485fc7;
+    outline: 0;
+}
+
+.button-600:hover {
+    border-color: #b5b5b5;
+}
+
+.button-600:focus:not(:active) {
+    box-shadow: rgba(72, 95, 199, .25) 0 0 0 .125em;
+}
+
+.button-60 {
+    align-items: center;
+    appearance: none;
+    background-color: #F7F5EB;
+    border: 1px solid #dbdbdb;
+    border-radius: .375em;
+    box-shadow: none;
+    box-sizing: border-box;
+    color: #363636;
+    cursor: pointer;
+    display: inline-flex;
+    font-family: BlinkMacSystemFont, -apple-system, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 1rem;
+    height: 2.5em;
+    justify-content: center;
+    line-height: 1.5;
+    padding: calc(.5em - 1px) 1em;
+    position: relative;
+    text-align: center;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    vertical-align: top;
+    white-space: nowrap;
+}
+
+.button-60:active {
+    border-color: #4a4a4a;
+    outline: 0;
+}
+
+.button-60:focus {
+    border-color: #485fc7;
+    outline: 0;
+}
+
+.button-60:hover {
+    border-color: #b5b5b5;
+}
+
+.button-60:focus:not(:active) {
+    box-shadow: rgba(72, 95, 199, .25) 0 0 0 .125em;
+}
+
+.main {
+    background: url(background1.jpg)no-repeat;
+    background-size: cover;
+    height: 100vh;
+    width: 100%;
+    text-align: center;
+}
+
+.main h2 {
+    font-size: 2.5vw;
+    font-weight: 600;
+    color: #1D1D1F;
+    padding-top: 32vh;
+    font-family: 'Roboto', sans-serif;
+}
+
+.main h4 {
+    font-size: 1.5vw;
+    font-weight: 500;
+    color:#1D1D1F;
+    padding-top: 0.8%;
+    padding-bottom: 0.8%;
+    font-family: 'Roboto', sans-serif;
+}
+
+.main input {
+    width: 90%;
+    height: 50px;
+    padding: 1% 1% 1% 2%;
+    border-radius: 50px;
+    box-shadow: rgba(17, 17, 26, 0.1) 0px 4px 16px, rgba(17, 17, 26, 0.05) 0px 8px 32px;
+    border: none;
+    outline: none;
+    transition-timing-function: ease-in-out;
+    transition: 0.2s;
+}
+
+.main input:hover {
+    width: 90.3%;
+    height: 50px;
+    box-shadow: rgba(17, 17, 26, 0.2) 0px 8px 32px, rgba(17, 17, 26, 0.1) 0px 16px 64px;
+
+}
+
+.main i {
+    margin-left: -40px;
+    color: rgb(34, 33, 33);
+}
+
+.main button {
+    height: 50px;
+    border-top-right-radius: 50px;
+    border-bottom-right-radius: 50px;
+    border: none;
+    margin-left: -5px;
+    padding: 1.05% 2% 1% 1.5%;
+    background-color: #7AA874;
+    color: white;
+}
+
+.footer container-fluid {
+    color: white;
+}
+
+@media screen and (max-width: 1000px) {
+    .main h2 {
+        font-size: 3vw;
+    }
+
+    .main h4 {
+        font-size: 2vw;
+    }
+
+    .main input {
+        width: 80%;
+        height: 45px;
+    }
+
+    .main input:hover {
+        width: 80.3%;
+        height: 45px;
+    }
+}
+
+@media screen and (max-width: 750px) {
+    .main h2 {
+        font-size: 4vw;
+    }
+
+    .main h4 {
+        font-size: 3vw;
+    }
+
+    .main input {
+        width: 80%;
+        height: 40px;
+    }
+
+    .main input:hover {
+        width: 80.3%;
+        height: 40px;
+    }
+}
+
+.card {
+    border: none;
+    background-color: #F5f5f7;
+
+}
+
+#cardtext {
+    border: 1px solid rgb(197, 195, 195);
+    font-size: 20px;
+    text-align: center;
+    font-weight: bold;
+    padding-top: 1vh;
+    padding-bottom: 1vh;
+}
+
+#cardcontainer {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    border: 0.5px solid rgb(197, 195, 195);
+    display: grid;
+    grid-gap: 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    justify-content: center;
+}
+
+
+#cardbox:hover {
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+
+}
+
+
+.searchcard {
+    border: none;
+    background-color: #F5f5f7;
+
+}
+
+.jobsearch {
+    text-align: center;
+    padding-top: 100px;
+    padding-bottom: 20px;
+}
+
+.jobsearch input {
+    width: 80%;
+    height: 40px;
+    padding: 1% 1% 1% 2%;
+    border-radius: 5px;
+    border: 1px solid rgb(197, 195, 195);
+    outline: none;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+.jobsearch input:focus {
+    border: 2px solid #B6C6FF;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+
+}
+
+#searchcardcontainer {
+    padding-top: 0rem;
+    padding-bottom: 1rem;
+    display: grid;
+    grid-gap: 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(20vh, 1fr));
+    justify-content: center;
+}
+
+#searchfilter select {
+    width: 100%;
+    height: 3.5vh;
+    border-radius: 5px;
+    padding-left: 8px;
+}
+
+#searchfilter input {
+    width: 100%;
+    height: 3.5vh;
+    border-radius: 5px;
+    background-color: #B6C6FF;
+}
+
+
+#searchfilter button {
+    width: 100%;
+    height: 3.5vh;
+    border-radius: 5px;
+    background-color: #B6C6FF;
+    border: none;
+}
+
+.filterbutton {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}

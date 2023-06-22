@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+ {% block title %}
+    <title>Employer Dashboard</title>
+    {% endblock title %}
+
+
+        {% block content %} 
+           <div class="container-fluid row-4 m-5 mt-2">
+            
+                
+            <h2>Actions</h2>
+            <div class="justify-content-center col-6">
+                
+        <a href="{% url 'employer:applications' %}" class="btn btn-success col-4">View Applications</a>
+        <a href="{% url 'employer:jobs' %}" class="btn btn-success col-4">View Posted Jobs</a>
+        <br>
+        <br>
+        {% if not company %}
+        <a href="{% url 'employer:add_company' %}" class="btn btn-success col-4">Add Company</a>
+        {% else %}
+        <a href="{% url 'employer:view_company' %}" class="btn btn-success col-4">View Company</a>
+        {% endif %}        
+        </div>
+        </div>
+
+        {% endblock %}
+   

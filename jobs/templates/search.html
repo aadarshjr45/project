@@ -1,0 +1,75 @@
+
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+
+{% if searchtext %} 
+
+<section class="card">
+        
+        <h1 class="mt-3">Job Listings</h1>
+                    
+         
+         <div class="container mt-5" style="display: inline-block;">
+
+            <div class="container" id="cardcontainer">
+                       {% for job in jobs %}
+
+                   <div id="cardbox">
+                    
+                     <div class="card flex-row"><img class="card-img-left example-card-img-responsive" src="{{job.logo.url}}"
+                            width="150px" height="120px" alt="" />
+                       
+                        <div class="card-body">
+                            <h4 class="fw-bold fs-5" style="color: #0d1e5c;"> {{job.title}} </h4>
+                            <h5 class="fw-bolder fs-6"> {{job.company}} </h5>
+                            <h5 class="fw-normal fs-6"> {{job.description}} </h5>
+                            <p><small>Valid Till: {{ job.application_valid }}</small></p>   
+                            <h5 class="fw-normal fs-6"><a href="{% url 'jobs:job_detail' job.id %}" style="color: black;">More Details</a></h5>
+                        </div>
+                    </div>
+
+                </div>
+           
+                    {% endfor %}
+                    </div>
+                    </div>
+                
+    </section>
+    
+   
+      {% endif %}
+{% endblock %}
+
+{% block script%}
+{{ block.super }}
+<script type="text/javascript">
+   $(document).ready(function(){
+       $.ajax({
+           url:'/demo-for-ajax/',
+           type:'GET',
+           dataType: 'json',
+           success: function(res){
+               console.log(res);
+           },
+           error: function(res) {
+               console.log(res);
+           }
+       })
+       let modal = document.getElementById("exampleModal");
+       modal.addEventListener("show.bs.modal",function(evt){
+           let btn = evt.relatedTarget;
+           let jobid = btn.dataset.jobid;
+           $("#_jobid").val(jobid);
+       });
+
+       $("#delete-button").click(function(){
+           $("#delete-form").submit();
+       });
+   });
+</script>
+{% endblock script %}
+
+

@@ -1,0 +1,51 @@
+      
+{% extends 'base.html' %}
+   {% include 'navbar.html' %}
+
+{% load static %}
+    {% block title %}
+    <title>jobFinder</title>
+    {% endblock title %}
+
+
+    
+  
+
+    
+
+   {% block content %} 
+
+ {% if jobs %}
+
+
+<section class="card mt-5">
+        <div class="container mt-5" style="display: inline-block;">
+
+            <div class="container" id="cardcontainer">
+   {% for job in jobs %}
+  
+
+                <div id="cardbox">
+                    
+                     <div class="card flex-row"><img class="card-img-left example-card-img-responsive" src="{{job.logo.url}}"
+                            width="150px" height="120px" alt="" />
+                       
+                        <div class="card-body">
+                            <h4 class="fw-bold fs-5" style="color: #0d1e5c;"> {{job.title}} </h4>
+                            <h5 class="fw-bolder fs-6"> {{job.company}} </h5>
+                            <h5 class="fw-normal fs-6"> {{job.description}} </h5>
+                            <p><small>Valid Till: {{ job.application_valid }}</small></p>   
+                            <h5 class="fw-normal fs-6"><a href="{% url 'jobs:job_detail' job.id %}" style="color: black;">More Details</a></h5>
+                        </div>
+                    </div>
+
+                </div>
+         
+                    {% endfor %}
+               
+            </div>
+            </div>
+    </section>
+
+      {% endif %}
+{% endblock content %}

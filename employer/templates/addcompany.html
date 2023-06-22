@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+ {% block title %}
+    <title>Register Company</title>
+    {% endblock title %}
+
+{% block content %}
+{% if request.user.is_authenticated and request.user.is_employer%}
+
+    {% if not company %}
+        <p>You need to register a company first</p>
+<form method="post" action="" enctype="multipart/form-data" class="form-group"> {% csrf_token %}
+<div class="container m-5 mt-2">
+            
+                <div class="row ml-5">
+            <h2>Register Company</h2>
+            <div class="col-10">
+
+            <div class="form-control">
+                
+                {% for field in form %}
+                {{ field.label_tag }}
+                {{ field }}
+                <span class="text text-danger">
+                    {{field.errors}}
+                </span>
+                 
+                <input type="hidden" value='{{request.user}}' readonly>
+
+                <br>
+                {% endfor %}
+                
+                <button type="submit" class="btn btn-primary col-4">Register</button>
+            </div>
+            </div>
+            </div></div>
+</div>
+</form>
+
+        {% endif %}
+        {% endif %}
+{% endblock %}

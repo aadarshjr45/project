@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+     {% block title %}
+    <title>My Profile</title>
+    {% endblock title %}
+
+{% load static %}
+{% block content %}
+<div class="container mt-6">
+<div class="col-9">
+    <div class="row justify-content-center">
+<h1> My Profile</h1>
+    
+    <div class="card-body mr-5">
+    
+    <table class="table table-hover table-striped table-bordered col-6" enctype="multipart/form-data" id="dataTable">
+   
+        <tr>
+            <th style="padding:20px 10px">Image</th>
+            {% if user.image %}
+            <td><img src="{{ user.image.url }}"  style="width: 100px"></td>
+            {% else %}
+            <td><img src="{% static 'blank.png' %}"  style="width: 100px"></td>
+            {% endif %}
+        </tr>
+           <tr>
+            <th style="padding:20px 10px">Name</th>
+            <td style="padding:20px 10px" readonly disabled>{{user.first_name}} {{user.last_name}} </td>
+        </tr>
+        <tr>
+            <th style="padding:20px 10px">Username</th>
+            <td style="padding:20px 10px"> {{user.username}}</td>
+
+        </tr>
+            <th style="padding:20px 10px">Email</th>
+            <td style="padding:20px 10px">{{user.email}}</td>
+
+        </tr>
+         </tr>
+            <th style="padding:20px 10px">Employer</th>
+            <td style="padding:20px 10px">{{user.is_employer}}</td>
+
+        </tr>
+            <tr>
+                <th style="padding:20px 10px">Actions</th>
+                <td style="padding:20px 10px">
+                    <a class = "btn btn-secondary btn-sm" href="{% url 'users:profileedit' user.id%}"><span class="btn-label"><i class="bi bi-pencil"></i></span> Edit</a>
+                </td>
+            </tr>
+      
+</table>
+
+</div>
+</div>
+</div>
+</div>
+{% endblock %}

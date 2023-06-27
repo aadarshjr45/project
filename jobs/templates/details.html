@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% block title %}
+<title>Job for {{ jobs.title }}</title>
+{% endblock title %}
+
+{% block content %}
+
+
+
+{% include 'navbar.html' %}
+<section class="morejobsearch" style="background-color: #f5f5f7; height: 100vh;">
+    <div class="container" id="morejobsearch">
+
+        <div class="row g-5">
+            <!-- ============================================================ left part section ================================================== -->
+            <div class="col-md-7 col-lg-8">
+
+                <h3 class="mb-3" style="text-align: left;"> <img class="card-img-left example-card-img-responsive"
+                        src="{{jobs.logo.url}}" width="200px" height="200px"> {{jobs.company_name}} </h3>
+                <div class="table-responsive">
+                    <table class="table table-sm" style="text-align: left;">
+                        <tbody>
+                            <tr>
+                                <td colspan="2" class="fw-bold" style="text-align: left; font-size: 24px;">
+                                    {{jobs.title}} </td>
+                            </tr>
+                            <tr>
+                                <th>Description </th>
+                                <td style="text-align: justify;"> {{jobs.description}} </td>
+                            </tr>
+                            <tr>
+                                <th>Salary </th>
+                                <td style="text-align: justify;"> {{jobs.salary}} </td>
+                            </tr>
+                            <tr>
+                                <th>Job Type </th>
+                                <td style="text-align: justify;"> {{jobs.type|capfirst}} </td>
+                            </tr>
+                            <tr>
+                                <th>Catagory </th>
+                                <td style="text-align: justify;"> {{jobs.category}} </td>
+                            </tr>
+                            <tr>
+                                <th>Posted On </th>
+                                <td style="text-align: justify;"> {{jobs.created_at}} </td>
+                            </tr>
+                            <tr>
+                                <th>Valid Till </th>
+                                <td style="text-align: justify;"> {{jobs.application_valid}} </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- ============================================================ right part section ================================================== -->
+
+            {% include 'recommend.html' %}
+        </div>
+    </div>
+</section>
+
+<!-- ========================================= footer section ================================================== -->
+
+
+{%endblock content%}

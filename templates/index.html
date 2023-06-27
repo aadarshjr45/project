@@ -1,30 +1,27 @@
 {% extends 'base.html' %}
 {% load static %}
-     {% block title %}
-    <title>jobFinder</title>
-    {% endblock title %}
+{% block title %}
+<title>jobFinder</title>
+{% endblock title %}
 
-   {% block content %}
+{% block content %}
 
-   <style>
-    
-   </style>
+<style>
 
-    <section class="main py-5">
-     <div class="container py-5">
-      <h2>Connecting you to your next career opportunity.</h2>
-      <h4>Find the job that fits your skills and passions.</h4>
-      <form method="post" name="form" class="searchform" action="{% url 'jobs:search' %}"> {% csrf_token %}
-        <input type="text" name="searchtext" placeholder="Search Job"><i class="bi bi-search b1"></i>
-      </form>
-    </div>
-    </section>
+</style>
 
-   
+<section class="main py-5">
+  <div class="container py-5">
+    <h2>Connecting you to your next career opportunity.</h2>
+    <h4>Find the job that fits your skills and passions.</h4>
+    <form method="post" name="form" class="searchform" action="{% url 'jobs:search' %}"> {% csrf_token %}
+      <input type="text" name="searchtext" placeholder="Search Job"><i class="bi bi-search b1"></i>
+    </form>
+  </div>
+</section>
 
-   
 
-           
-    
+
+{% include 'recentjobs.html' %}
 
 {% endblock %}

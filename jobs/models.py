@@ -6,10 +6,72 @@ from users.models import User
 from django.core.validators import FileExtensionValidator
 
 class Category(models.TextChoices):
-    FREELANCER = "freelancer","Freelancer"
-    PARTTIME = "parttime","Parttime"
-    FULLTIME = "fulltime", "Fulltime"
-    INTERN = "intern", "Intern"
+    NONE = "-----------", "Select One Category"
+    FREELANCER = "Free Lancer","Free Lancer"
+    PARTTIME = "Part Time","Part Time"
+    FULLTIME = "Full Time", "Full Time"
+    INTERN = "Intern", "Intern"
+    TEMPORARY = "Temporary", "Temporary"
+    CONTRACT = "Contract", "Contract"
+
+class Level(models.TextChoices):
+    NONE = "-----------", "Select One Level"
+    ENTRY = "Entry","Entry"
+    MID = "Mid","Mid"
+    SENIOR = "Senior", "Senior"
+    MANAGER = "Manager", "Manager"
+
+
+class Type(models.TextChoices):
+    NONE = "-----------", "Select One Type"
+    TEACHER = "teacher","Teacher"
+    IT = "IT","IT"
+    COMPUTERPROGRAMMER = "Computer Programmer", "Computer Programmer"
+    GRAPHICSDESIGNER = "Graphics Designer", "Graphics Designer"
+    WEBDEVELOPER ="Web Developer","Web Developer"
+    DATABASEADMINISTRATOR ="Database Administrator","Database Administrator"
+    TECHNICIAN ="Technician","Technician"
+    ACCOUNTANT ="Accountant","Accountant"
+    SOFTWAREDEVELOPER="Software Developer","Software Developer"
+    WEBDESIGNER="Web Designer","Web Designer"
+    HARDWAREENGINEER="Hardware Engineer","Hardware Engineer"
+    NETWORKADMINISTRATOR="Network Administrator","Network Administrator"
+    HARDWAREARCHITECT="Hardware Architect","Hardware Architect"
+    DATAANALYST="Data Analyst","Data Analyst"
+    SYSTEMADMINISTRATOR="System Administrator","System Administrator"
+    COMPUTERSCIENTIST="Computer Scientist","Computer Scientist"
+    SOFTWAREENGINEER="Software Engineer","Software Engineer"
+    SYSTEMSECURITY="System Securtiy","System Securtiy"
+    MOBILEAPPLICATIONDEVELOPER="Mobile Application Developer","Mobile Application Developer"
+    GAMEDESIGNER="Game Designer","Game Designer"
+    GAMEDEVELOPER="Game Developer","Game Developer"
+    VISUALDEVELOPER="Visual Developer","Visual Developer"
+    NETWORKANALYST="Network Analyst","Network Analyst"
+    NETWORKMANAGER="Network Manager","Network Manager"
+    NETWORKDESIGNER="Network Designer","Network Designer"
+    NETWORKENGINEER="Network Engineer","Network Engineer"
+    SOFTWARETESTER="Software Tester","Software Tester"
+    DATASCIENTIST="Data Scientist","Data Scientist"
+    DATAARCHITECT="Data Architect","Data Architect"
+    SOFTWAREARCHITECT="Software Architect","Software Architect"
+    INFORMATIONARCHITECT="Information Architect","Information Architect"
+    STATISTICALPROGRAMMER="Statistical Programmer","Statistical Programmer"
+    ITINSTRUCTOR="IT Instructor","IT Instructor"
+    TEXTUREARTIST="Texture Artist","Texture Artist"
+    TECHNICALARTIST="Technical Artist","Technical Artist"
+    GAMEDIRECTOR="Game Director","Game Director"
+    GAMEPRODUCER="Game Producer","Game Producer"
+    ANIMATOR="Animator","Animator"
+    ANIMATIONSUPERVISOR="animationsupervisor","Animation Supervisor"
+    ITMANAGER="Animation Supervisor","IT Manager"
+    WEBMASTER="Web Master","Web Master"
+    WENEDITOR="Web Editor","Web Editor"
+    CONTENTMANAGER="Content Manager","Content Manager"
+    CINEMATICARTIST="Cinematic Artist","Cinematic Artist"
+    CHARACTERDESIGNER="Character Designer","Character Designer"
+    SUPERVISOR="Supervisor","Supervisor"
+    PROFESSIONALGAMER="Profesional Gamer","Profesional Gamer"
+
 
 class Job(models.Model):
     title = models.CharField(max_length=200)
@@ -20,8 +82,10 @@ class Job(models.Model):
     location = models.CharField(max_length=201)
     salary = models.CharField(max_length=10)
     created_at = models.DateField(auto_now_add=True)
-    application_valid = models.DateField(blank=True, null=True)
-    category = models.CharField(choices=Category.choices,default=Category.FULLTIME)
+    application_valid = models.DateField()
+    category = models.CharField(choices=Category.choices,default=Category.NONE)
+    type = models.CharField(choices=Type.choices,default=Type.NONE)
+    level = models.CharField(choices=Level.choices,default=Level.NONE)
     modified_at = models.DateField(auto_now=True)
     posted_by = models.ForeignKey(User,on_delete= models.CASCADE, default=1)
 

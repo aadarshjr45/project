@@ -1,61 +1,61 @@
 {% load static %}
 
- <section class="header"> 
- <nav class="navbar navbar-expand-lg fixed-top"
-      style="box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); background-color: #F7F5EB;">
-      <div class="container">
-        <img src="{%static 'staticfiles/logo.png'%}" alt="logo" width="30" height="24">
-        <a class="navbar-brand mx-2" href="{% url 'jobs:index' %}">jobFinder</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-            <li class="nav-item mx-2">
-              <a class="nav-link active" aria-current="page" href="{% url 'jobs:index' %}">Home</a>
-            </li>
-            <li class="nav-item mx-2">
-              <a class="nav-link" href="{% url 'jobs:job_list' %}">Jobs</a>
-            </li>
-           
-            {% if request.user.is_authenticated and request.user.is_employer%}
-            <li class="nav-item mx-2"   >
-                <a class="nav-link" href="{% url 'employer:post_job' user.id %}">Post a Job</a>
-            </li>
+<section class="header">
+  <nav class="navbar navbar-expand-lg fixed-top"
+    style="box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); background-color: #F7F5EB;">
+    <div class="container">
+      <img src="{%static 'staticfiles/logo.png'%}" alt="logo" width="30" height="24">
+      <a class="navbar-brand mx-2" href="{% url 'jobs:index' %}">be-Rojgar</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item mx-2">
+            <a class="nav-link active" aria-current="page" href="{% url 'jobs:index' %}">Home</a>
+          </li>
+          <li class="nav-item mx-2">
+            <a class="nav-link" href="{% url 'jobs:job_list' %}">Jobs</a>
+          </li>
 
-             <li class="nav-item mx-2">
-                <a class="nav-link" href="{% url 'employer:dashboard' %}">Employer Dashboard</a>
-            </li>
-           
-            {%endif%}
+          {% if request.user.is_authenticated and request.user.is_employer%}
+          <li class="nav-item mx-2">
+            <a class="nav-link" href="{% url 'employer:post_job' user.id %}">Post a Job</a>
+          </li>
 
-             {% if request.user.is_authenticated and not request.user.is_employer%}
-            <li class="nav-item mx-2">
-                <a class="nav-link" href="{% url 'users:application_view'%}"> My Applications</a>
-            </li>
-            {%endif%}
+          <li class="nav-item mx-2">
+            <a class="nav-link" href="{% url 'employer:dashboard' %}">Employer Dashboard</a>
+          </li>
 
-            {% if request.user.is_authenticated%}
-            <li class="nav-item mx-2">
-                <a class="nav-link" href="{% url 'users:profile' user.id %}">My Profile</a>
-            </li>
-            {% endif %}
+          {%endif%}
 
-          </ul>
-          <div class="d-flex">
-            {% if not request.user.is_authenticated %}
-            <a href="{% url 'login' %}"> <button class="button-60">Login</button> </a>
-            <a href="{% url 'register' %}"> <button class="button-600 mx-2">Register</button> </a>  
-            {% endif %}
-             {% if request.user.is_authenticated %}
+          {% if request.user.is_authenticated and not request.user.is_employer%}
+          <li class="nav-item mx-2">
+            <a class="nav-link" href="{% url 'users:application_view'%}"> My Applications</a>
+          </li>
+          {%endif%}
 
-            <a href="{% url 'logout' %}"> <button class="button-60">Logout</button> </a>
+          {% if request.user.is_authenticated%}
+          <li class="nav-item mx-2">
+            <a class="nav-link" href="{% url 'users:profile' user.id %}">My Profile</a>
+          </li>
+          {% endif %}
 
-           {% endif %}
+        </ul>
+        <div class="d-flex">
+          {% if not request.user.is_authenticated %}
+          <a href="{% url 'login' %}"> <button class="button-60">Login</button> </a>
+          <a href="{% url 'register' %}"> <button class="button-600 mx-2">Register</button> </a>
+          {% endif %}
+          {% if request.user.is_authenticated %}
 
-          </div>
+          <a href="{% url 'logout' %}"> <button class="button-60">Logout</button> </a>
+
+          {% endif %}
+
         </div>
       </div>
-    </nav>
+    </div>
+  </nav>
 </section>

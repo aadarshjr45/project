@@ -1,14 +1,21 @@
-import imp
+from django.db.models import Q
 from django.shortcuts import render,redirect, get_object_or_404
 from django.urls import reverse,reverse_lazy
 from django.http import HttpResponseRedirect
 from django.contrib.auth.hashers import make_password
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from jobs.models import Job, Application, Message, Company
 from jobs.forms import JobForms
 from employer.forms import CompanyForm
+from users.models import User
+
+
+def user_check(user):
+    return user.is_employer
+
 
 @login_required(login_url='login')
+@user_passes_test(user_check)
 def post_job(request, id):
     id = request.user
     company = Company.objects.get(added_by = id)
@@ -27,6 +34,7 @@ def post_job(request, id):
     return render(request, 'post_job.html', {"form":form, "company":company,})
 
 @login_required(login_url='login')
+@user_passes_test(user_check)
 def add_company(request):
     company = Company.objects.filter(added_by = request.user)
     if company:
@@ -40,6 +48,7 @@ def add_company(request):
     return render(request, 'addcompany.html', {"form":form})
 
 @login_required(login_url='login')
+@user_passes_test(user_check)
 def edit_company(request, id):
     company = Company.objects.get(added_by = request.user, id = id)
     form = CompanyForm(request.POST or None, request.FILES or None, instance = company)
@@ -49,6 +58,7 @@ def edit_company(request, id):
     return render(request, 'editcompany.html', {"form":form})
 
 @login_required(login_url='login')
+@user_passes_test(user_check)
 def view_company(request):
     company = Company.objects.get(added_by = request.user)
     return render(request, 'viewcompany.html', {"company":company})
@@ -57,6 +67,7 @@ def view_company(request):
 
 
 @login_required(login_url='login')
+@user_passes_test(user_check)
 def application(request):
 
     jobs = request.user
@@ -77,23 +88,25 @@ def application(request):
         )
 
 
-@login_required(login_url='login')
 
+@login_required(login_url='login')
+@user_passes_test(user_check)
 def dashboard(request):
-    print(request.user)
     company = Company.objects.filter(added_by = request.user)
+    jobs = Job.objects.filter(posted_by = request.user).count()
 
     return render(
             request,
-            "dashboard.html",
+            "employer_dashboard.html",
             {
-                "company":company
+                "company":company,
+                "jobs":jobs,
             }
     )
    
 
 @login_required(login_url='login')
-
+@user_passes_test(user_check)
 def jobs(request):
     jobs = Job.objects.filter(posted_by = request.user)
     return render(
@@ -105,7 +118,7 @@ def jobs(request):
     )
 
 @login_required(login_url='login')
-
+@user_passes_test(user_check)
 def accept_application(request, id):
     applications = Application.objects.get(id = id)
     if request.method == "POST":
@@ -119,7 +132,7 @@ def accept_application(request, id):
     return render (request, "accept.html", {"applications": applications})
 
 @login_required(login_url='login')
-
+@user_passes_test(user_check)
 def reject_application(request, id):
     applications = Application.objects.get(id = id)
     if request.method == "POST":
@@ -131,3 +144,13 @@ def reject_application(request, id):
         Application.objects.filter(id = application_id).update(status = status)
         return HttpResponseRedirect(reverse("employer:applications"))
     return render (request, "reject.html", {"applications": applications})
+
+
+@login_required(login_url = 'login')
+def profile_view(request,id):
+    user = User.objects.get(id=id)
+    return render(
+        request,
+        "profileview.html",
+        {"user":user},
+    )

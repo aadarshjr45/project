@@ -1,0 +1,69 @@
+<nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-body-tertiary sidebar collapse">
+    <div class="position-sticky pt-3 sidebar-sticky">
+        <ul class="nav flex-column" style="font-size: 16px;">
+            <li class="nav-item" style="font-size: 24px; font-weight: 600;">
+                <p class="nav-link" href="" style="color: black;">
+                    Dashboard
+                </p>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'employer:dashboard' %}" style="color: black;">
+                    <i class="bi bi-house-door"></i>
+                    Home
+                </a>
+            </li>
+            <li class="nav-item" style="color: black;" onmouseover="this.style.color='#007BFF';"
+                onmouseout="this.style.backgroundColor='#B6C6FF';">
+                <a class="nav-link" href="{% url 'employer:post_job' user.id %}" style="color: black;">
+                    <i class="bi bi-plus-circle"></i>
+                    Post a Job
+                </a>
+            </li>
+            {% if not company %}
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'employer:add_company' %}" style="color: black;"
+                    onmouseover="this.style.color='#007BFF';" onmouseout="this.style.color='#000';">
+                    <i class="bi bi-building-add"></i>
+                    Register Company
+                </a>
+            </li>
+            {% else %}
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'employer:view_company' %}" style="color: black;"
+                    onmouseover="this.style.color='#007BFF';" onmouseout="this.style.color='#000';">
+                    <i class="bi bi-building-add"></i>
+                    View Company
+                </a>
+            </li>
+            {% endif %}
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'employer:jobs' %}" style="color: black;"
+                    onmouseover="this.style.color='#007BFF';" onmouseout="this.style.color='#000';">
+                    <i class="bi bi-briefcase"></i>
+                    Job Listings
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'employer:profile' user.id %}" style="color: black;"
+                    onmouseover="this.style.color='#007BFF';" onmouseout="this.style.color='#000';">
+                    <i class="bi bi-gear-wide"></i>
+                    Account Settings
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" style="color: black;" onmouseover="this.style.color='#007BFF';"
+                    onmouseout="this.style.color='#000';">
+                    <i class="bi bi-pencil-square"></i>
+                    Edit Profile
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" style="color: black;" onmouseover="this.style.color='#007BFF';"
+                    onmouseout="this.style.color='#000';">
+                    <i class="bi bi-pencil-square"></i>
+                    Edit Company
+                </a>
+            </li>
+        </ul>
+    </div>
+</nav>

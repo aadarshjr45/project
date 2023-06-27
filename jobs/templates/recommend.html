@@ -1,0 +1,33 @@
+<style>
+    a {
+        display: block;
+        text-decoration: none;
+    }
+</style>
+
+
+<div class="col-md-5 col-lg-4 order-md-last">
+    <h4 class="h5 d-flex justify-content-between align-items-center mb-3">
+        Similar Jobs
+    </h4>
+
+    {% for job in all %}
+    {% if job.application_valid >= date %}
+    <a href="{% url 'jobs:job_detail' job.id %}">
+
+        <div id="cardbox" class="mb-1">
+            <div class="card flex-row"><img class="card-img-left example-card-img-responsive" src="{{job.logo.url}}"
+                    width="100px" height="100px" />
+                <div class="card-body" style="text-align: left;">
+                    <h4 class="" style="color: #0d1e5c; font-size: 16px;">{{ job.title }}</h4>
+                    <h5 class="" style="font-size: 14px;">ABC company</h5>
+                    <h5 class="" style="font-size: 14px;">Looking for a figma designer..</h5>
+
+                </div>
+            </div>
+        </div>
+    </a>
+    {% endif %}
+    {% endfor %}
+
+</div>

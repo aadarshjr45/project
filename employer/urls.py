@@ -10,7 +10,8 @@ from employer.views import(
     reject_application,
     add_company,
     view_company,
-    edit_company
+    edit_company, 
+    profile_view
    
 )
 
@@ -26,5 +27,6 @@ urlpatterns = [
     path('add_company/', add_company, name='add_company'),
     path('view_company/', view_company, name='view_company'),
     path('edit_company/id=<int:id>/', edit_company, name='edit_company'),
+    path("profile/userid = <int:id>/",profile_view, name='profile'),
 
 ]

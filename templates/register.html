@@ -15,25 +15,25 @@
 <body>
     <div class="container">
         <form action="#" class="register" method="post"> {% csrf_token %}
-            <h1 class="titleh1">beRojgar | JobSeekersZone</h1>
+            <h1 class="titleh1">be-Rojgar | JobSeekersZone</h1>
             <h2 class="titleh3">Register your account</h2>
             <div class="form-group">
-                
+
                 <div class="input-group">
-                        {% for field in form %}
-                        {{ field.label_tag }}<br>
-                        {{ field }}
-                       
-                        {% for error in field.errors %}
-                            <p style="color: red">{{ error }}</p>
-                        {% endfor %}
+                    {% for field in form %}
+                    {{ field.label_tag }}<br>
+                    {{ field }}
+
+                    {% for error in field.errors %}
+                    <p style="color: red">{{ error }}</p>
+                    {% endfor %}
                     {% endfor %}
                 </div>
-                
-    
-            <button type="submit" name="submit" class="btn-submit">Register</button>
-            <p>I already have an account. <a href="login.html">Login</a></p>
-            <a href="index.html">Go home</a>
+
+
+                <button type="submit" name="submit" class="btn-submit">Register</button>
+                <p>I already have an account. <a href="login.html">Login</a></p>
+                <a href="index.html">Go home</a>
         </form>
     </div>
 

@@ -22,6 +22,7 @@ from django.contrib.auth.views import LogoutView
 from users.views import(
     LoginView,
     signup_view,
+    login_view
     )
 
 
@@ -30,7 +31,7 @@ urlpatterns = [
     path('', include("jobs.urls", namespace="jobs")),
     path('employer/', include("employer.urls", namespace="employer")),
     path('users/', include("users.urls", namespace="user")),
-    path('login/',LoginView.as_view(template_name = 'login.html'), name='login'),
+    path('login/',login_view, name='login'),
     path("logout/ ", LogoutView.as_view(), name="logout"),
     path('register/', signup_view, name='register'),
   

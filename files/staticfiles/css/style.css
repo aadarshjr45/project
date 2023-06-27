@@ -23,7 +23,7 @@
 .button-600 {
     align-items: center;
     appearance: none;
-    background-color:#B6C6FF;
+    background-color: #B6C6FF;
     border: 1px solid #dbdbdb;
     border-radius: .375em;
     box-shadow: none;
@@ -127,7 +127,7 @@
 .main h4 {
     font-size: 1.5vw;
     font-weight: 500;
-    color:#1D1D1F;
+    color: #1D1D1F;
     padding-top: 0.8%;
     padding-bottom: 0.8%;
     font-family: 'Roboto', sans-serif;
@@ -233,7 +233,7 @@
     border: 0.5px solid rgb(197, 195, 195);
     display: grid;
     grid-gap: 1rem;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
     justify-content: center;
 }
 
@@ -308,4 +308,10 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 10px;
+}
+
+.morejobsearch {
+    text-align: center;
+    padding-top: 100px;
+    padding-bottom: 20px;
 }

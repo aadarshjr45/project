@@ -1,5 +1,6 @@
 from django.shortcuts import render,get_object_or_404,redirect
 from django.urls import reverse_lazy
+from django.contrib.auth import authenticate, login
 from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib.auth.views import LoginView
@@ -14,10 +15,26 @@ from jobs.forms import ApplicationForm
 
 User = get_user_model()
 
-class UserLoginView(LoginView):
-    template_name = "login.html"
-    
+# class UserLoginView(LoginView):
+#     template_name = "login.html"
+   
 
+def login_view(request):
+    if request.method == "POST":
+        
+        username = request.POST.get("username")
+        password = request.POST.get("password")
+
+        user = authenticate(request,username=username,password=password)
+        print(user.is_employer)
+        if user is not None:
+            login(request,user)
+            if user.is_employer:
+                return HttpResponseRedirect(reverse ('employer:dashboard'))
+            else:
+                return HttpResponseRedirect(reverse ('jobs:job_list'))
+    else:
+        return render(request,"login.html")
 
 
 

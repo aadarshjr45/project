@@ -20,9 +20,8 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.auth.views import LogoutView
 from users.views import(
-    LoginView,
+    login_view,
     signup_view,
-    login_view
     )
 
 

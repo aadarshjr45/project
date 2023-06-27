@@ -7,7 +7,8 @@ from jobs.views import(
         homepage, 
         search_view,
         job_edit,
-        filter_view
+        filter_view,
+
 
        
 )

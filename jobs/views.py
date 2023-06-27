@@ -21,11 +21,14 @@ def job_list(request):
     level = LevelForm(request.POST or None)
     date = timezone.now().date()
     jobs = Job.objects.all().order_by("-created_at")
+    paginator = Paginator(jobs,12)
+    page_number = request.GET.get("page")
+    jobsfinal = paginator.get_page(page_number)
     return render(
-        request, "job_list.html", {"jobs": jobs, "date": date, "category": category, "type": type, "level": level}
+        request, "job_list.html", {"jobs": jobs, "date": date, "category": category, "type": type, "level": level, "jobsfinal": jobsfinal}
     )
 
-
+@login_required(login_url="login")
 def job_detail(request, job_id):
     jobs = Job.objects.get(id=job_id)
     all = Job.objects.order_by("-created_at")[:6]

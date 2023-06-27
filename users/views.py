@@ -5,9 +5,9 @@ from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib.auth.views import LoginView
 from django.http import HttpResponseRedirect
-from django.urls import reverse,reverse_lazy
+from django.urls import reverse
 from django.contrib.auth.decorators import login_required
-from users.forms import  SignUpForm,ProfileForm
+from users.forms import  SignUpForm,ProfileForm, LoginForm
 from .models import User
 from jobs.models import Application, Message
 from jobs.forms import ApplicationForm
@@ -20,22 +20,24 @@ User = get_user_model()
    
 
 def login_view(request):
-    if request.method == "POST":
-        
-        username = request.POST.get("username")
-        password = request.POST.get("password")
-
-        user = authenticate(request,username=username,password=password)
-        print(user.is_employer)
-        if user is not None:
+    form = LoginForm(request.POST or None)
+    next_url = request.POST.get('next')
+    if request.POST and form.is_valid():
+        user = form.login(request)
+        if not user:
+            raise ValueError("Invalid credentials")
+        if user:
+           
             login(request,user)
+            if next_url:
+                return HttpResponseRedirect(next_url)
             if user.is_employer:
                 return HttpResponseRedirect(reverse ('employer:dashboard'))
             else:
-                return HttpResponseRedirect(reverse ('jobs:job_list'))
+                return HttpResponseRedirect(reverse ('jobs:index'))
+            
     else:
-        return render(request,"login.html")
-
+        return render(request,"login.html", {"form":form})
 
 
 
@@ -71,7 +73,6 @@ def profile_edit(request,id):
     if form.is_valid():
         form.save()
         messages.success(request, 'Your profile is updated successfully')
-        # return redirect(to='users:profile')
         return HttpResponseRedirect(
             reverse(
                 "users:profile",

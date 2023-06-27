@@ -19,20 +19,20 @@
 
                         <tr>
                             <th style="padding:20px 10px">Description</th>
-                            <td style="padding:20px 10px">{{ job.description }}</td>
+                            <td style="padding:20px 10px">{{ jobs.description }}</td>
                         </tr>
                         <tr>
                             <th style="padding:20px 10px">Company Name</th>
-                            <td style="padding:20px 10px">{{job.company_name}}</td>
+                            <td style="padding:20px 10px">{{jobs.company_name}}</td>
                         </tr>
                         <tr>
                             <th style="padding:20px 10px">Company Website</th>
-                            <td style="padding:20px 10px"><a>{{job.company_website}} </a></td>
+                            <td style="padding:20px 10px"><a>{{jobs.company_website}} </a></td>
 
                         </tr>
                         <tr>
                             <th style="padding:20px 10px">Location</th>
-                            <td style="padding:20px 10px"><a>{{job.location}}</a></td>
+                            <td style="padding:20px 10px"><a>{{jobs.location}}</a></td>
 
                         </tr>
                         <tr>
@@ -57,10 +57,10 @@
 
                         <tr>
                             <th style="padding:20px 10px">Posted By</th>
-                            <td style="padding:20px 10px">{{job.posted_by}}</td>
+                            <td style="padding:20px 10px">{{jobs.posted_by}}</td>
 
                         </tr>
-                        {% if not request.user.is_employer or request.user == job.posted_by %}
+                        {% if not request.user.is_employer or request.user == jobs.posted_by %}
 
                         <tr>
                             <th style="padding:20px 10px">Actions</th>
@@ -71,16 +71,17 @@
 
                                 <p>You have already applied for this job.</p>
                                 {% else %}
-                                <a type="submit" class="btn btn-secondary btn-sm"
-                                    href="{% url 'jobs:apply_job' job.id %}" style="padding:5px 10px"> Apply</a>
+                                <a type="submit" class="btn btn-secondary btn-sm" href="#" style="padding:5px 10px">
+                                    Apply</a>
                                 {% endif %}
 
                                 {% endif %}
 
-                                {% if request.user == job.posted_by %}
+                                {% if request.user == jobs.posted_by %}
 
-                                <a type="submit" class="btn btn-secondary" href="{% url 'jobs:edit_job' job.id %}"><span
-                                        class="btn-label"><i class="bi bi-pencil"></i></span> Edit Job</a>
+                                <a type="submit" class="btn btn-secondary"
+                                    href="{% url 'jobs:edit_job' jobs.id %}"><span class="btn-label"><i
+                                            class="bi bi-pencil"></i></span> Edit Job</a>
                                 <button data-jobid="{{job.id}}" class="btn btn-danger" data-bs-toggle="modal"
                                     data-bs-target="#exampleModal"><i class="bi bi-trash"></i> Delete</button>
 

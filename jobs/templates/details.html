@@ -29,6 +29,19 @@
                                 <td style="text-align: justify;"> {{jobs.description}} </td>
                             </tr>
                             <tr>
+                                <th>Company </th>
+                                <td style="text-align: justify;"> {{jobs.company_name}} </td>
+                            </tr>
+                            <tr>
+                                <th>Website </th>
+                                <td style="text-align: justify;"><a href="{{job.company_website}}">
+                                        {{jobs.company_website}} </a> </td>
+                            </tr>
+                            <tr>
+                                <th>Location </th>
+                                <td style="text-align: justify;"> {{jobs.location}} </td>
+                            </tr>
+                            <tr>
                                 <th>Salary </th>
                                 <td style="text-align: justify;"> {{jobs.salary}} </td>
                             </tr>
@@ -64,8 +77,7 @@
 
                                 {% else %}
                                 <td style="text-align: justify;"><a href="{% url 'jobs:apply_job' jobs.id %}"
-                                        target="_blank" class="btn btn-secondary btn-sm"><i
-                                            class="bi bi-link-45deg"></i>
+                                        class="btn btn-secondary btn-sm"><i class="bi bi-link-45deg"></i>
                                         Apply</a>
 
                                 </td>

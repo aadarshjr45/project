@@ -8,7 +8,7 @@ from jobs.views import(
         search_view,
         job_edit,
         filter_view,
-
+        main
 
        
 )
@@ -25,5 +25,6 @@ urlpatterns = [
     path('delete/', job_delete, name='delete_job'),
     path('search/', search_view, name="search"),
     path('filter/', filter_view, name="filter_view"),
+    path('recommed/',main,name="main")
 
 ]

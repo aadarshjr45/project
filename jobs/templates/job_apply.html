@@ -1,49 +1,50 @@
 {% extends 'base.html' %}
 
- {% block title %}
-    <title>Apply for {{ job.title }}</title>
-    {% endblock title %}
+{% block title %}
+<title>Apply for {{ job.title }}</title>
+{% endblock title %}
 
 {% block content %}
 {% if request.user.is_authenticated%}
 <form method="post" action="" enctype="multipart/form-data" class="form-group"> {% csrf_token %}
-<div class="container-fluid m-4 mt-2">
-    <div class="row">
+    <div class="container-fluid m-4 mt-2">
+        <div class="row">
             <h2>Apply for {{ job.title }}</h2>
 
             <div class="card justify-content-center col-6">
-                
-                
+
+
                 <br>
-            
-                <input class="form-control" type="hidden" value='{{request.user.first_name}} {{request.user.last_name}}' name="name" readonly>
+
+                <input class="form-control" type="hidden" value='{{request.user.first_name}} {{request.user.last_name}}'
+                    name="name" readonly>
 
                 <br>
                 Email:
                 <input class="form-control" type="email" value='{{request.user.email}}' name="email" readonly>
                 <br>
                 Resume:
-                <input type="file" class="form-control"  name="resume" accept=".pdf" required>
+                <input type="file" class="form-control" name="resume" accept=".pdf" required>
                 <br>
                 <button type="submit" class="btn btn-primary col-3 m-1">Apply</button>
-                   <br> 
+                <br>
 
                 <input type="hidden" value='{{job.id}}' class="form-control" name="submitted_for_id" readonly>
                 <input type="hidden" value='{{job.id}}' class="form-control" name="posted_by" readonly>
                 <br>
                 <input type="hidden" value='{{request.user.id}}' class="form-control" name="submitted_by_id" readonly>
                 {% for field in jobs %}
-                 {% for error in field.errors %}
-                            <p style="color: red">{{ error }}</p>
-                        {% endfor %}
-                    {% endfor %}
+                {% for error in field.errors %}
+                <p style="color: red">{{ error }}</p>
+                {% endfor %}
+                {% endfor %}
 
             </div>
-</div>
+        </div>
     </div>
 </form>
 {% else %}
-        <p>You need to be logged in as an Employer to post a job.</p>
+<p>You need to be logged in as an Employer to post a job.</p>
 
-        {% endif %}
+{% endif %}
 {% endblock %}

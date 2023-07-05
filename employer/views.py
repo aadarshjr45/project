@@ -4,18 +4,26 @@ from django.urls import reverse,reverse_lazy
 from django.http import HttpResponseRedirect
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.decorators import login_required, user_passes_test
-from jobs.models import Job, Application, Message, Company
+from jobs.models import Job, Application, Message
+from employer.models import Company
 from jobs.forms import JobForms
+from users.forms import ProfileForm
 from employer.forms import CompanyForm
 from users.models import User
+from django.utils import timezone
 
 
-def user_check(user):
+
+def employer_check(user):
     return user.is_employer
+    
+def jobseeker_check(user):
+    return not user.is_employer
+    
 
 
 @login_required(login_url='login')
-@user_passes_test(user_check)
+@user_passes_test(employer_check, redirect_field_name='jobs:index')
 def post_job(request, id):
     id = request.user
     company = Company.objects.get(added_by = id)
@@ -30,11 +38,35 @@ def post_job(request, id):
         add.posted_by = request.user
         # plus = Job(company_name = add.company_name, location = add.company_location, company_website = add.company_website, posted_by_id = request.user)
         add.save()
-        return HttpResponseRedirect(reverse ('jobs:job_list'))
+        return HttpResponseRedirect(reverse ('employer:jobs'))
     return render(request, 'post_job.html', {"form":form, "company":company,})
 
+@login_required(login_url="login")
+def job_edit(request, id):
+    company = Company.objects.filter(added_by = request.user)
+    job = get_object_or_404(Job, id=id)
+    form = JobForms(request.POST or None, request.FILES or None, instance=job)
+    if form.is_valid():
+        form.save()
+        # return redirect(to='users:profile')
+        return HttpResponseRedirect(
+            reverse(
+                "employer:job_detail",
+                args=(job.id,),
+            )
+        )
+    return render(request, "edit_job.html", {"form": form, "job": job, "company":company,})
+
+
+@login_required(login_url="login")
+def job_delete(request):
+    jobid = request.POST.get("jobid")
+    job = get_object_or_404(Job, id=jobid)
+    job.delete()
+    return HttpResponseRedirect(reverse("employer:jobs"))
+
 @login_required(login_url='login')
-@user_passes_test(user_check)
+@user_passes_test(employer_check)
 def add_company(request):
     company = Company.objects.filter(added_by = request.user)
     if company:
@@ -48,7 +80,7 @@ def add_company(request):
     return render(request, 'addcompany.html', {"form":form})
 
 @login_required(login_url='login')
-@user_passes_test(user_check)
+@user_passes_test(employer_check)
 def edit_company(request, id):
     company = Company.objects.get(added_by = request.user, id = id)
     form = CompanyForm(request.POST or None, request.FILES or None, instance = company)
@@ -58,7 +90,7 @@ def edit_company(request, id):
     return render(request, 'editcompany.html', {"form":form})
 
 @login_required(login_url='login')
-@user_passes_test(user_check)
+@user_passes_test(employer_check)
 def view_company(request):
     company = Company.objects.get(added_by = request.user)
     return render(request, 'viewcompany.html', {"company":company})
@@ -67,11 +99,13 @@ def view_company(request):
 
 
 @login_required(login_url='login')
-@user_passes_test(user_check)
+@user_passes_test(employer_check)
 def application(request):
 
-    jobs = request.user
-    applications = Application.objects.filter(posted_by = jobs)
+    jobs = Job.objects.filter(posted_by = request.user)
+    company = Company.objects.filter(added_by = request.user)
+    print(jobs)
+    applications = Application.objects.filter(posted_by = request.user)
     messages = Message.objects.all()
     print(messages)
 
@@ -81,19 +115,33 @@ def application(request):
         request,
         "applications.html",
         {"applications":applications,
+            "jobs":jobs,
+            "company":company,
          
          },
          
     
         )
 
+@login_required(login_url='login')
+@user_passes_test(employer_check)
+def job_detail(request, job_id):
+    company = Company.objects.filter(added_by = request.user)
+    jobs = Job.objects.get(id=job_id)
+    date = timezone.now().date()
+    user = request.user
+
+    return render(
+        request, "jobdetails.html", {"jobs": jobs, "date": date, "user":user, "company":company,}
+    )
 
 
 @login_required(login_url='login')
-@user_passes_test(user_check)
+@user_passes_test(employer_check)
 def dashboard(request):
     company = Company.objects.filter(added_by = request.user)
     jobs = Job.objects.filter(posted_by = request.user).count()
+    applications = Application.objects.filter(posted_by = request.user).count()
 
     return render(
             request,
@@ -101,56 +149,87 @@ def dashboard(request):
             {
                 "company":company,
                 "jobs":jobs,
+                "applications":applications,
             }
     )
    
 
 @login_required(login_url='login')
-@user_passes_test(user_check)
+@user_passes_test(employer_check)
 def jobs(request):
-    jobs = Job.objects.filter(posted_by = request.user)
+    company = Company.objects.filter(added_by = request.user)
+    
+    jobs = Job.objects.filter(posted_by = request.user).order_by('-created_at')
     return render(
         request,
         "jobs.html",
         {"jobs":jobs,
+        "company":company,
          }
 
     )
 
 @login_required(login_url='login')
-@user_passes_test(user_check)
+@user_passes_test(employer_check)
 def accept_application(request, id):
     applications = Application.objects.get(id = id)
+    company = Company.objects.get(added_by = request.user)
     if request.method == "POST":
         message = request.POST.get("message")
         application_id = request.POST.get("application_id")
+        company_name = request.POST.get("company_name")
+        employer_name = request.POST.get("employer_name")
+        applicant_name = request.POST.get("applicant_name")
         status = "accepted"
-        accept = Message( message=message, status = status, application_id=application_id)
+        accept = Message( message=message, status = status, application_id=application_id, company_name = company_name, applicant_name = applicant_name, employer_name = employer_name)
         accept.save()
         Application.objects.filter(id = application_id).update(status = status)
         return HttpResponseRedirect(reverse("employer:applications"))
-    return render (request, "accept.html", {"applications": applications})
+    return render (request, "accept.html", {"applications": applications, "company":company} )
 
 @login_required(login_url='login')
-@user_passes_test(user_check)
+@user_passes_test(employer_check)
 def reject_application(request, id):
     applications = Application.objects.get(id = id)
+    company = Company.objects.get(added_by = request.user)
     if request.method == "POST":
         message = request.POST.get("message")
         application_id = request.POST.get("application_id")
+        company_name = request.POST.get("company_name")
+        employer_name = request.POST.get("employer_name")
+        applicant_name = request.POST.get("applicant_name")
         status = "rejected"
-        reject = Message( message=message, status = status, application_id=application_id)
+        reject = Message( message=message, status = status, application_id=application_id, company_name = company_name, applicant_name = applicant_name, employer_name = employer_name)
         reject.save()
         Application.objects.filter(id = application_id).update(status = status)
         return HttpResponseRedirect(reverse("employer:applications"))
-    return render (request, "reject.html", {"applications": applications})
+    return render (request, "reject.html", {"applications": applications, "company":company} )
 
 
 @login_required(login_url = 'login')
 def profile_view(request,id):
+    company = Company.objects.filter(added_by = request.user)
     user = User.objects.get(id=id)
     return render(
         request,
         "profileview.html",
-        {"user":user},
+        {"user":user,
+         "company":company,},
     )
+
+@login_required(login_url='login')
+def profile_edit(request,id):
+    user = get_object_or_404(User,id=id)
+    company = Company.objects.filter(added_by = request.user)
+    form = ProfileForm(request.POST or None,request.FILES or None, instance = request.user)
+    if form.is_valid():
+        form.save()
+        return HttpResponseRedirect(
+            reverse(
+                "users:profile",
+                args=(
+                    user.id,
+                ),
+            )
+        )
+    return render(request,"profileedit.html",{"form":form, "user":user, "company":company,})

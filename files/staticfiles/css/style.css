@@ -233,7 +233,7 @@
     border: 0.5px solid rgb(197, 195, 195);
     display: grid;
     grid-gap: 1rem;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     justify-content: center;
 }
 
@@ -312,6 +312,12 @@
 
 .morejobsearch {
     text-align: center;
+    padding-top: 100px;
+    padding-bottom: 20px;
+}
+
+.seekerprofile {
+    text-align: left;
     padding-top: 100px;
     padding-bottom: 20px;
 }

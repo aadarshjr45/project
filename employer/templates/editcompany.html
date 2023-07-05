@@ -1,42 +1,41 @@
-{% extends 'base.html' %}
+{% extends 'employerbase.html' %}
 
- {% block title %}
-    <title>Register Company</title>
-    {% endblock title %}
+{% block title %}
+<title>Edit Company</title>
 
+{% endblock title %}
 {% block content %}
-{% if request.user.is_authenticated and request.user.is_employer%}
+{% include 'header.html' %}
+{% include 'sidebar.html' %}
 
-    {% if not company %}
-        <p>You need to register a company first</p>
-<form method="post" action="" enctype="multipart/form-data" class="form-group"> {% csrf_token %}
-<div class="container m-5 mt-2">
-            
-                <div class="row ml-5">
-            <h2>Register Company</h2>
-            <div class="col-10">
 
-            <div class="form-control">
-                
-                {% for field in form %}
-                {{ field.label_tag }}
-                {{ field }}
-                <span class="text text-danger">
-                    {{field.errors}}
-                </span>
-                 
-                <input type="hidden" value='{{request.user}}' readonly>
 
-                <br>
-                {% endfor %}
-                
-                <button type="submit" class="btn btn-primary col-4">Register</button>
+
+<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+    <form action="#" name="searchfiler" method="post" enctype="multipart/form-data"> {% csrf_token %}
+        <div
+            class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+            <h1 class="h5">Edit Company Profile</h1>
+        </div>
+
+        {% for field in form %}
+        <div class="mb-3">
+            {{ field.label_tag }}
+            {{ field }}
+            <span class="text text-danger">
+                {{field.errors}}
+            </span>
+        </div>
+        {% endfor %}
+        <div class="mb-3">
+            <div class="mb-3" style="text-align: center;">
+                <button type="submit" value="submit"
+                    style="background-color: #B6C6FF; border-radius: 5px; border:none; height: 4vh; width:30vw;"
+                    onmouseover="this.style.backgroundColor='#8ca3f5';"
+                    onmouseout="this.style.backgroundColor='#B6C6FF';">Update</button>
             </div>
-            </div>
-            </div></div>
-</div>
-</form>
+        </div>
+    </form>
+</main>
 
-        {% endif %}
-        {% endif %}
-{% endblock %}
+{% endblock content %}

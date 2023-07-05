@@ -1,46 +1,59 @@
+{% extends 'employerbase.html' %}
+{% block title %}
+<title>View Company</title>
 
-{% extends 'base.html' %}
+{% endblock title %}
 {% load static %}
 
- {% block title %}
-    <title>My Company Details</title>
-    {% endblock title %}
-
-
-
 {% block content %}
-    {% if company %}
-    <div class="container-fluid">
-    <div class="row">
-    <h1>My Company</h1>   
-    
-        <div class="col-2 card  m-3">
-                    <div class="card-body">
-                        {% if company.logo %}
-            <div>
-            <img src="{{ company.logo.url }}"  style="width: 100px">
-            {% else %}
-            <img src="{% static 'blank.png' %}"  style="width: 100px">
-            </div>
-            {% endif %}
-                        <h5 class="mb-1">{{ company.company_name }}</h5>
-                  
-                    <p class="mb-1">{{ company.company_location }}</p>
-                    <p class="mb-1">{{ company.company_website }}</p>
-                    <hr>
-                    <a class="btn btn-primary" href="{% url 'employer:edit_company' company.id%}">Edit</a>
-                    <div>
-                 
-                </div>
-                
-              </div>
-              </div>
-         
 
-                          {% endif %}  
-                    
-           
-                    </div>
-{% endblock %}
+{% include 'header.html' %}
 
+{% include 'sidebar.html' %}
 
+{% if company %}
+
+<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+    <div
+        class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="h5">Company Profile</h1>
+    </div>
+    {% if company.logo %}
+    <img class="img-fluid rounded mt-3" src="{{company.logo.url}}" alt="profile" width="150px" height="120px"></img>
+    {% else %}
+    <img class="img-fluid rounded mt-3" src="{% static 'blank.png' %}" alt="profile" width="150px" height="120px"></img>
+    {% endif %}
+    <div class="table-responsive mt-5">
+        <table class="table table-sm" style="text-align: left; width: auto; height: 1vh;">
+            <tbody>
+                <tr>
+                    <th>Company Name </th>
+                    <td style="text-align: justify;">{{company.company_name}}</td>
+                </tr>
+                <tr>
+                    <th>Address </th>
+                    <td style="text-align: justify;">{{company.company_location}}</td>
+                </tr>
+                <tr>
+                    <th>Website </th>
+                    <td style="text-align: justify;">{{company.company_website}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="mb-3">
+        <div class="mb-3" style="text-align: left;">
+            <a href="{% url 'employer:edit_company' company.id %}" style="text-decoration: none;"> <button class="px-5"
+                    type="submit" value="submit" style="background-color: #B6C6FF; 
+            border-radius: 5px; border:none; height: 4vh; width:auto;"
+                    onmouseover="this.style.backgroundColor='#8ca3f5';"
+                    onmouseout="this.style.backgroundColor='#B6C6FF';">
+                    <i class="bi bi-pencil-square pe-2"></i>Edit</button>
+            </a>
+        </div>
+    </div>
+</main>
+
+{% endif %}
+
+{% endblock content %}

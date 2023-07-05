@@ -1,12 +1,10 @@
 {% extends 'base.html' %}
 
 
-    {% block maincontent %}
+{% block maincontent %}
 
-    <h1>Welcome to the Job Board!</h1>
-    <p>Find your dream job or post your open positions.</p>
-    <a href="{% url 'job_list' %}" class="btn btn-primary">Browse Jobs</a>
+<h1>Welcome to the Job Board!</h1>
+<p>Find your dream job or post your open positions.</p>
+<a href="{% url 'job_list' %}" class="btn btn-primary">Browse Jobs</a>
 
-    {% endblock maincontent %}
-
-
+{% endblock maincontent %}

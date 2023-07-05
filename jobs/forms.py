@@ -10,8 +10,6 @@ class JobForms(forms.ModelForm):
         model = Job
         exclude = ("posted_by", "company_name", "location", "company_website", "logo")
 
-        title = forms.CharField(label="Title", help_text="Title for the job")
-
         widgets = {
             "application_valid": forms.DateInput(attrs={"type": "date"}),
             "description": forms.Textarea(

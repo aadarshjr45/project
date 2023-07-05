@@ -6,6 +6,7 @@ from users.models import User
 from django.core.validators import FileExtensionValidator
 
 class Category(models.TextChoices):
+
     NONE = "-----------", "Select One Category"
     FREELANCER = "Free Lancer","Free Lancer"
     PARTTIME = "Part Time","Part Time"
@@ -80,14 +81,15 @@ class Job(models.Model):
     company_website = models.CharField(max_length=200)
     logo = models.FileField(upload_to='logo/',null=True,blank=True,validators=[FileExtensionValidator(allowed_extensions=['png','jpg','jpeg'])])
     location = models.CharField(max_length=201)
-    salary = models.CharField(max_length=10)
+    minsalary = models.CharField(max_length=100)
+    maxsalary = models.CharField(max_length=100)
     created_at = models.DateField(auto_now_add=True)
     application_valid = models.DateField()
-    category = models.CharField(choices=Category.choices,default=Category.NONE)
-    type = models.CharField(choices=Type.choices,default=Type.NONE)
-    level = models.CharField(choices=Level.choices,default=Level.NONE)
+    category = models.CharField(choices=Category.choices,default=None)
+    type = models.CharField(choices=Type.choices,default=None)
+    level = models.CharField(choices=Level.choices,default=None)
     modified_at = models.DateField(auto_now=True)
-    posted_by = models.ForeignKey(User,on_delete= models.CASCADE, default=1)
+    posted_by = models.ForeignKey(User,on_delete= models.CASCADE)
 
     def __str__(self):
         return self.title
@@ -106,8 +108,8 @@ class Application(models.Model):
     resume = models.FileField(upload_to='resumes/',null=True,blank=True,validators=[FileExtensionValidator(allowed_extensions=['pdf'])])
     submitted_on = models.DateField(auto_now=True)
     posted_by = models.CharField(max_length=200, null=True, blank=True)
-    submitted_by = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
-    submitted_for = models.ForeignKey(Job,on_delete=models.CASCADE, default=1) 
+    submitted_by = models.ForeignKey(User, on_delete=models.CASCADE)
+    submitted_for = models.ForeignKey(Job,on_delete=models.CASCADE) 
     status = models.CharField(choices=Status.choices,default=Status.PENDING)
 
     def __str__(self):
@@ -118,21 +120,16 @@ class Message(models.Model):
     message = models.CharField(max_length=1055, null=True, blank=True)
     status = models.CharField(choices=Status.choices, default=Status.PENDING )
     application = models.ForeignKey(Application, on_delete=models.CASCADE)
+    company_name = models.CharField(max_length=255, null=True, blank=True)
+    applicant_name = models.CharField(max_length=255, null=True, blank=True)
+    employer_name = models.CharField(max_length=255, null=True, blank=True)
+    created_at = models.DateField(auto_now_add=True)
 
     def __str__(self):
         return self.status
 
 
-class Company(models.Model):
-    company_name = models.CharField(max_length=255, null=True, blank=True)
-    company_website = models.CharField(max_length=255, null=True, blank=True)
-    company_location = models.CharField(max_length=255, null=True, blank=True)
-    added_by = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
-    logo = models.FileField(upload_to='logo/',null=True,blank=True,validators=[FileExtensionValidator(allowed_extensions=['png','jpg','jpeg'])])
 
-
-    def __str__(self):
-        return self.company_name
 
       
     

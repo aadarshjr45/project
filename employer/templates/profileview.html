@@ -1,58 +1,55 @@
-{% extends 'employer_dashboard.html' %}
+{% extends 'employerbase.html' %}
 {% block title %}
 <title>My Profile</title>
 {% endblock title %}
 
 {% load static %}
+
 {% block content %}
-<div class="container mt-6">
-    <div class="col-9">
-        <div class="row justify-content-center">
-            <h1> My Profile</h1>
 
-            <div class="card-body mr-5">
+{% include 'header.html' %}
 
-                <table class="table table-hover table-striped table-bordered col-6" enctype="multipart/form-data"
-                    id="dataTable">
+{% include 'sidebar.html' %}
 
-                    <tr>
-                        <th style="padding:20px 10px">Image</th>
-                        {% if user.image %}
-                        <td><img src="{{ user.image.url }}" style="width: 100px"></td>
-                        {% else %}
-                        <td><img src="{% static 'blank.png' %}" style="width: 100px"></td>
-                        {% endif %}
-                    </tr>
-                    <tr>
-                        <th style="padding:20px 10px">Name</th>
-                        <td style="padding:20px 10px" readonly disabled>{{user.first_name}} {{user.last_name}} </td>
-                    </tr>
-                    <tr>
-                        <th style="padding:20px 10px">Username</th>
-                        <td style="padding:20px 10px"> {{user.username}}</td>
-
-                    </tr>
-                    <th style="padding:20px 10px">Email</th>
-                    <td style="padding:20px 10px">{{user.email}}</td>
-
-                    </tr>
-                    </tr>
-                    <th style="padding:20px 10px">Employer</th>
-                    <td style="padding:20px 10px">{{user.is_employer}}</td>
-
-                    </tr>
-                    <tr>
-                        <th style="padding:20px 10px">Actions</th>
-                        <td style="padding:20px 10px">
-                            <a class="btn btn-secondary btn-sm" href="{% url 'users:profileedit' user.id%}"><span
-                                    class="btn-label"><i class="bi bi-pencil"></i></span> Edit</a>
-                        </td>
-                    </tr>
-
-                </table>
-
-            </div>
+<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+    <div
+        class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="h5">Profile View</h1>
+    </div>
+    {% if user.image %}
+    <img class="img-fluid rounded mt-3" src="{{user.image.url}}" alt="profile" width="150px" height="120px"></img>
+    {% else %}
+    <img class="img-fluid rounded mt-3" src="{% static 'blank.png' %}" alt="profile" width="150px" height="120px"></img>
+    {% endif %}
+    <div class="table-responsive mt-5">
+        <table class="table table-sm" style="text-align: left; width: auto; height: 1vh;">
+            <tbody>
+                <tr>
+                    <th>Name </th>
+                    <td style="text-align: justify;">{{user.first_name}} {{user.last_name}}</td>
+                </tr>
+                <tr>
+                    <th>Username </th>
+                    <td style="text-align: justify;">{{ user.username }}</td>
+                </tr>
+                <tr>
+                    <th>Email </th>
+                    <td style="text-align: justify;">{{ user.email }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="mb-3">
+        <div class="mb-3" style="text-align: left;">
+            <a href="{% url 'employer:profileedit' user.id %}" style="text-decoration: none;"> <button class="px-5"
+                    type="submit" value="submit" style="background-color: #B6C6FF; 
+            border-radius: 5px; border:none; height: 4vh; width:auto;"
+                    onmouseover="this.style.backgroundColor='#8ca3f5';"
+                    onmouseout="this.style.backgroundColor='#B6C6FF';">
+                    <i class="bi bi-pencil-square pe-2"></i>Edit</button>
+            </a>
         </div>
     </div>
-</div>
+</main>
+
 {% endblock %}

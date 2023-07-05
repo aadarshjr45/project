@@ -9,18 +9,18 @@
 	<link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 	<link rel="stylesheet" href="{% static 'staticfiles/css/login.css' %}">
-	<title>Job Seeker | Login</title>
+	<title>JobHub | Login</title>
 </head>
 
 <body>
 
 	<div class="container">
 		<form action="#" class="login active" method="post"> {% csrf_token %}
-			<h1 class="titleh1">b-Rojgar</h1>
+			<h1 class="titleh1">JobHub</h1>
 			<h3 class="titleh3">Login with your account</h3>
 			{% if form.non_field_errors %}
 			{% for error in form.non_field_errors %}
-			{{ error }}
+			<p style="color: red">{{ error }}</p>
 			{% endfor %}
 			</ul>
 			{% endif %}

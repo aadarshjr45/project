@@ -1,30 +1,45 @@
-{% extends 'base.html' %}
+{% extends 'employerbase.html' %}
 
- {% block title %}
-    <title>Reject application </title>
-    {% endblock title %}
+{% block title %}
+<title>Reject Application</title>
+
+{% endblock title %}
 
 {% block content %}
-{% if request.user.is_authenticated and request.user.is_employer%}
-<form method="post" action="" enctype="multipart/form-data" class="form-group"> {% csrf_token %}
-<div class="container-fluid mt-2 m-4">
-            
-                
-            <h2>Reject Application</h2>
-            <div class="col-6">
+{% include 'header.html' %}
 
-                
-               <textarea class="form-control" name="message" rows="7" cols="100" style="resize:none"> </textarea>
+{% include 'sidebar.html' %}
 
-               <br>
-                <input type="hidden" value='{{applications.id}}' class="form-control" name="application_id" readonly>
-                <button type="submit" class="btn btn-danger btn-md col-5"><span class="btn-label"></span><i class="bi bi-check"></i></span> Reject Applicaion</button>
+<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+    <div
+        class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="h5">Message</h1>
+    </div>
+    <form action="#" name="searchfiler" method="post"> {% csrf_token %}
+        <div class="mb-3">
+            <label for="exampleFormControlInput1" class="form-label">Applicant Name:</label>
+            <input type="text" class="form-control" id="exampleFormControlInput1" value="{{applications.name}}"
+                name="applicant_name" readonly>
+        </div>
+        <div class="mb-3">
+            <textarea class="form-control" id="exampleFormControlTextarea1" rows="10" placeholder="Enter message"
+                name="message"></textarea>
+        </div>
+        <div class="mb-3">
+            <label for="exampleFormControlInput1" class="form-label">Company Name:</label>
+            <input type="text" class="form-control" id="exampleFormControlInput1" value="{{company.company_name}}"
+                name="company_name" readonly>
+        </div>
+        <input type="hidden" value='{{applications.id}}' class="form-control" name="application_id" readonly>
+
+        <div class="mb-3">
+            <div class="mb-3" style="text-align: left;">
+                <button type="submit" class="btn btn-outline-danger"><i class="bi bi-x-lg me-2"></i>Reject
+                    Application</button>
+
             </div>
-       
-</div>
-</form>
-{% else %}
-        <p>You need to be logged in as an Employer to accept an application.</p>
+        </div>
+    </form>
+</main>
 
-        {% endif %}
-{% endblock %}
+{% endblock content %}

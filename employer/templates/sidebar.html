@@ -12,8 +12,8 @@
                     Home
                 </a>
             </li>
-            <li class="nav-item" style="color: black;" onmouseover="this.style.color='#007BFF';"
-                onmouseout="this.style.backgroundColor='#B6C6FF';">
+            <li class="nav-item" style="background-color:#B6C6FF; border-radius: 25px;"
+                onmouseover="this.style.backgroundColor='#8ca3f5';" onmouseout="this.style.backgroundColor='#B6C6FF';">
                 <a class="nav-link" href="{% url 'employer:post_job' user.id %}" style="color: black;">
                     <i class="bi bi-plus-circle"></i>
                     Post a Job
@@ -46,22 +46,15 @@
             <li class="nav-item">
                 <a class="nav-link" href="{% url 'employer:profile' user.id %}" style="color: black;"
                     onmouseover="this.style.color='#007BFF';" onmouseout="this.style.color='#000';">
-                    <i class="bi bi-gear-wide"></i>
-                    Account Settings
+                    <i class="bi bi-person-circle"></i>
+                    View Profile
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#" style="color: black;" onmouseover="this.style.color='#007BFF';"
-                    onmouseout="this.style.color='#000';">
-                    <i class="bi bi-pencil-square"></i>
-                    Edit Profile
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#" style="color: black;" onmouseover="this.style.color='#007BFF';"
-                    onmouseout="this.style.color='#000';">
-                    <i class="bi bi-pencil-square"></i>
-                    Edit Company
+                <a class="nav-link" href="{% url 'employer:applications' %}" style="color: black;"
+                    onmouseover="this.style.color='#007BFF';" onmouseout="this.style.color='#000';">
+                    <i class="bi bi-envelope"></i>
+                    View Applications
                 </a>
             </li>
         </ul>

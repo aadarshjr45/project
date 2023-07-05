@@ -95,8 +95,6 @@ class LoginForm(forms.Form):
 
 
 class SignUpForm(UserCreationForm):
-
-    
     class Meta:
         model = User
         fields = ( 
@@ -109,9 +107,34 @@ class SignUpForm(UserCreationForm):
             "is_employer",
             "image",
             )
-        widgets = {
-            'is_employer': forms.Select(attrs={'class': 'form-control'}),
-        }
+
+       
+
+    def __init__(self, *args, **kwargs):
+        super(SignUpForm, self).__init__(*args, **kwargs)
+
+        self.fields['first_name'].widget = forms.TextInput(attrs={ 'placeholder': 'First Name'})
+        self.fields['last_name'].widget = forms.TextInput(attrs={ 'placeholder': 'Last Name'})
+        self.fields['username'].widget = forms.TextInput(attrs={ 'placeholder': 'Username'})
+        self.fields['email'].widget = forms.EmailInput(attrs={ 'placeholder': 'Email'})
+        self.fields['password1'].widget = forms.PasswordInput(attrs={ 'placeholder': 'Password'})
+        self.fields['password2'].widget = forms.PasswordInput(attrs={ 'placeholder': 'Password confirmation'})
+        
+        self.fields['first_name'].label = "First Name"
+        self.fields['last_name'].label = "Last Name"
+        self.fields['username'].label = "Username"
+        self.fields['email'].label = "Email"
+        self.fields['password1'].label = "Password"
+        self.fields['password2'].label = "Confirm Password"
+        self.fields['image'].label = "Profile Picture"
+        self.fields['is_employer'].label = "Are you an employer?"
+
+        self.fields['username'].help_text = "Username must be unique."
+        self.fields['email'].help_text = "Email must be unique."
+        self.fields['password1'].help_text = "Password must be 8 characters or more and not too common"
+
+        
+
 
 
 class ProfileForm(forms.ModelForm):

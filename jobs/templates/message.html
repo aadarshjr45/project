@@ -1,33 +1,27 @@
-
 {% extends 'base.html' %}
- {% block title %}
-    <title>My Application Details</title>
-    {% endblock title %}
+{% block title %}
+<title>My Messages</title>
+{% endblock title %}
 
 
 
 {% block content %}
-   
-    <div class="container-fluid">
-    <div class="row">
-    <h1>My Application Details</h1>   
-    
-        <div class="col-2 card  m-3">
-                    <div class="card-body">
-                        <h5 class="mb-1">{{ message.message }}</h5>
-                    <hr>
-                  
-                 
-                    <div>
-                 
-                </div>
-                
-              </div>
-              </div>
-         
 
-                          
-            
+
+<section class="seekerprofile" style="background-color: #f5f5f7; height: auto;">
+    <div class="container" style="height: 100vh;">
+        <div
+            class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+            <h1 class="h5">Message received on {{ message.created_at }}</h1>
+        </div>
+        <p>Dear {{message.applicant_name}},</p>
+        <p style="text-align: justify;">{{message.message}}</p>
+        <p>Best Regards,</p>
+        <p>{{ message.employer_name }}<br>
+            {{message.company_name}}</p>
+    </div>
+</section>
+
+
+
 {% endblock %}
-
-

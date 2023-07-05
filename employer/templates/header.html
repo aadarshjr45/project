@@ -1,14 +1,14 @@
 <header class="navbar navbar-dark sticky-top p-0"
     style="box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); background-color: #DEDFE0;">
     <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-6 ps-5" id="company_name" href="#"
-        style="color: black;">beRojgar | Employer Panel</a>
+        style="color: black;">JobHub | Employer Panel</a>
     <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse"
         data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon" style="background-color: black;"></span>
     </button>
     <div class="navbar-nav" style="background-color: #DEDFE0;">
         <div class="nav-item text-nowrap">
-            <a class="nav-link px-3" href="#" style="color: black;">Log out<i
+            <a class="nav-link px-3" href="{% url 'logout' %}" style="color: black;">Log out<i
                     class="bi bi-box-arrow-right ps-2"></i></a>
         </div>
     </div>

@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}
+<title>Contact Us</title>
+{% endblock title %}
+{% block content %}
+
+{% include 'navbar.html' %}
+
+<section class="contactus" style="background-color: #F7F5EB;">
+    <div class="text-center" id="contactus" style="height: 15vh;">
+        <h2>Contact Us</h2>
+    </div>
+</section>
+<section style="background-color: #f5f5f7; height: auto;">
+    <div class="container">
+        <div class="row g-5">
+            <!-- ============================================================Right part========================================================= -->
+            <div class="col-md-5 col-lg-4 order-md-last"
+                style="border-radius: 10px; background-color: #B6C6FF; height: 19vh; box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;">
+                <p class="d-flex mb-3 mt-3"><i class="bi bi-geo-alt me-3"></i>Kalanki, Kathmandu</p>
+                <p class="d-flex mb-3"><i class="bi bi-telephone me-3"></i>1800-Number-1800</p>
+                <p class="d-flex mb-3"><i class="bi bi-inbox-fill me-3"></i>1800-FaxNumber-1800</p>
+                <p class="d-flex mb-3"><i class="bi bi-envelope-at me-3"></i>into@jobhub.com</p>
+            </div>
+            <!-- ============================================================Left part========================================================= -->
+
+            <div class="col-md-7 col-lg-8"
+                style="border: 0.1px solid #bfc3cb; border-radius: 5px; text-align: left; height: 80vh;">
+                <h5 class="mb-3 mt-3">Fill Up the form for any Inquity.</h5>
+                <form action="#" name="searchfiler" method="post">
+                    {% if user.is_authenticated %}
+                    <div class="mb-3">
+                        <label for="exampleFormControlTextarea1" class="form-label">Full Name:</label>
+                        <input type="text" class="form-control" id="exampleFormControlInput1"
+                            value="{{user.first_name}} {{user.last_name}}" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleFormControlInput1" class="form-label">Email</label>
+                        <input type="text" class="form-control" id="exampleFormControlInput1" value="{{user.email}}"
+                            readonly>
+                    </div>
+                    {% else %}
+
+                    <div class="mb-3">
+                        <label for="exampleFormControlTextarea1" class="form-label">Full Name:</label>
+                        <input type="text" class="form-control" id="exampleFormControlInput1">
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleFormControlInput1" class="form-label">Email</label>
+                        <input type="text" class="form-control" id="exampleFormControlInput1">
+                    </div>
+                    {% endif %}
+                    <div class="mb-3">
+                        <label for="exampleFormControlInput1" class="form-label">Mobile No.</label>
+                        <input type="text" class="form-control" id="exampleFormControlInput1">
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleFormControlInput1" class="form-label">Subject Matter</label>
+                        <input type="text" class="form-control" id="exampleFormControlInput1">
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleFormControlInput1" class="form-label">Message</label>
+                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="7"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <div class="mb-3" style="text-align: center;">
+                            <button type="submit" value="submit"
+                                style="background-color: #B6C6FF; border-radius: 5px; border:none; height: 4vh; width:20vw;">Submit</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+
+        </div>
+    </div>
+</section>
+
+{% endblock %}

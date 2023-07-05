@@ -14,13 +14,3 @@ class User(AbstractUser):
 
  
 
-
-    # user = models.OneToOneField(User,on_delete=models.CASCADE, null=True, related_name='applicant')
-  
-
-# class Employer(models.Model):
-#   user = models.OneToOneField(User,on_delete=models.CASCADE, null=True, related_name='employer')
-#   company_name = models.CharField(max_length=255, blank=True, null=True)
-#   website = models.CharField(max_length=100, blank=True)
-   
-

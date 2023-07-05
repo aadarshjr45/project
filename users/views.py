@@ -6,7 +6,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.views import LoginView
 from django.http import HttpResponseRedirect
 from django.urls import reverse
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from users.forms import  SignUpForm,ProfileForm, LoginForm
 from .models import User
 from jobs.models import Application, Message
@@ -15,9 +15,16 @@ from jobs.forms import ApplicationForm
 
 User = get_user_model()
 
+def jobseeker_check(user):
+    return not user.is_employer
+
 # class UserLoginView(LoginView):
 #     template_name = "login.html"
    
+
+def contactus(request):
+    user = request.user
+    return render(request,'contact.html', {'user':user})
 
 def login_view(request):
     form = LoginForm(request.POST or None)
@@ -58,6 +65,7 @@ def signup_view(request):
 
         
 @login_required(login_url = 'login')
+@user_passes_test(jobseeker_check)
 def profile_view(request,id):
     user = get_object_or_404(User,id=id)
     return render(
@@ -66,7 +74,10 @@ def profile_view(request,id):
         {"user":user},
     )
 
+
+
 @login_required(login_url='login')
+@user_passes_test(jobseeker_check)
 def profile_edit(request,id):
     user = get_object_or_404(User,id=id)
     form = ProfileForm(request.POST or None,request.FILES or None, instance = request.user)
@@ -84,6 +95,7 @@ def profile_edit(request,id):
     return render(request,"myprofileedit.html",{"form":form})
 
 @login_required(login_url='login')
+@user_passes_test(jobseeker_check)
 def application_view(request):
     applications = Application.objects.all()
     return render(
@@ -93,6 +105,7 @@ def application_view(request):
        
     )
 @login_required(login_url='login')
+@user_passes_test(jobseeker_check)
 def application_delete(request):
     applicationid = request.POST.get("applicationid")
     application = get_object_or_404(Application, id=applicationid)
@@ -100,6 +113,7 @@ def application_delete(request):
     return HttpResponseRedirect(reverse("users:application_view"))
 
 @login_required(login_url='login')
+@user_passes_test(jobseeker_check)
 def view_message(request, id):
     application = Application.objects.get(id = id)
     print(application)

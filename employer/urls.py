@@ -6,12 +6,16 @@ from employer.views import(
     application,
     dashboard,
     jobs,
+    job_detail,
+    job_edit,
+    job_delete,
     accept_application,
     reject_application,
     add_company,
     view_company,
     edit_company, 
-    profile_view
+    profile_view,
+    profile_edit
    
 )
 
@@ -22,11 +26,16 @@ urlpatterns = [
     path('applications/', application, name='applications'),
     path('dashboard/', dashboard, name='dashboard'),
     path('jobs/', jobs, name='jobs'),
+    path('jobs/details/<int:job_id>', job_detail, name='job_detail'),
+    path('jobs/<int:id>/edit/', job_edit, name='job_edit'),
+    path('jobs/delete/', job_delete, name='job_delete'),
     path('accept/<int:id>/', accept_application, name='accept_application'),
     path('reject/<int:id>/', reject_application, name='reject_application'),
     path('add_company/', add_company, name='add_company'),
     path('view_company/', view_company, name='view_company'),
     path('edit_company/id=<int:id>/', edit_company, name='edit_company'),
     path("profile/userid = <int:id>/",profile_view, name='profile'),
+    path("profile/edit/userid = <int:id>/",profile_edit, name='profileedit'),
+
 
 ]

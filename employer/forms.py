@@ -1,8 +1,7 @@
 from django import forms
-from jobs.models import Company
+from employer.models import Company
 from django.utils import timezone
 from django.core.exceptions import ValidationError
-from upload_validator import FileTypeValidator, magic
 
 
 class CompanyForm(forms.ModelForm):
@@ -16,6 +15,7 @@ class CompanyForm(forms.ModelForm):
         # self.fields["name"].widget.attrs["class"] = "form-control"
         for visible in self.visible_fields():
             visible.field.widget.attrs["class"] = "form-control"
+            visible.field.widget.attrs["id"] = "exampleFormControlInput1"
 
     def clean_application_valid(self):
         print("hrtr")

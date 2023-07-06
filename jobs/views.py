@@ -141,11 +141,21 @@ def job_list(request):
     level = LevelForm(request.POST or None)
     date = timezone.now().date()
     jobs = Job.objects.all().order_by("-created_at")
-    paginator = Paginator(jobs,12)
+    paginator = Paginator(jobs,per_page = 4)
     page_number = request.GET.get("page")
-    jobsfinal = paginator.get_page(page_number)
+    try:
+        page_obj = paginator.get_page(
+            page_number
+        )  # returns the desired page object
+    except PageNotAnInteger:
+        # if page_number is not an integer then assign the first page
+        page_obj = paginator.page(1)
+    except EmptyPage:
+        # if page is empty then return last page
+        page_obj = paginator.page(paginator.num_pages)
+   
     return render(
-        request, "job_list.html", {"jobs": jobs, "date": date, "category": category, "type": type, "level": level, "jobsfinal": jobsfinal}
+        request, "job_list.html", {"jobs": page_obj, "date": date, "category": category, "type": type, "level": level}
     )
 
 @login_required(login_url="login")
@@ -189,6 +199,9 @@ def apply_job(request, job_id):
 
 
 def search_view(request):
+    categoryform = CategoryForm(request.POST)
+    typeform = TypeForm(request.POST)
+    levelform = LevelForm(request.POST)
     if request.method == "POST":
         searchtext = request.POST["searchtext"]
         print(searchtext)
@@ -210,7 +223,7 @@ def search_view(request):
             # if page is empty then return last page
             page_obj = paginator.page(paginator.num_pages)
         return render(
-            request, "search.html", {"searchtext": searchtext, "jobs": page_obj}
+            request, "search.html", {"searchtext": searchtext, "jobs": page_obj, "category": categoryform, "type": typeform, "level": levelform}
         )
     return render(request, "search.html")
 

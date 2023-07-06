@@ -9,9 +9,6 @@
 
 
 
-
-
-
 {% block content %}
 
 
@@ -66,9 +63,9 @@
 
                     <div class="card-body">
                         <h4 class="fw-bold fs-5" style="color: #0d1e5c;"> {{job.title}} </h4>
-                        <h5 class="fw-bolder fs-6"> {{job.company}} </h5>
+                        <h5 class="fw-bolder fs-6"> {{job.company_name}} Company </h5>
                         <h5 class="fw-normal fs-6"> {{job.description}} </h5>
-                        <p><small>Valid Till: {{ job.application_valid }}</small></p>
+                        <p><small>Valid Till: {{ job.application_valid}}</small></p>
                         <h5 class="fw-normal fs-6"><a href="{% url 'jobs:job_detail' job.id %}"
                                 style="color: black;">More Details</a></h5>
                     </div>
@@ -81,10 +78,24 @@
         </div>
     </div>
 </section>
-{% else %}
-<p>You have not posted any jobs yet.</p>
-{% endif %}
+
+{% if jobs.has_previous %}
+<div class="container my-3" style="display: flex; justify-content: space-between;">
+    <a href="?page={{jobs.previous_page_number}}"><button type="button" class="btn btn-secondary btn-sm px-4">
+            <i class="bi bi-arrow-left me-2"></i>Previous</button></a>
+    {% endif %}
+
+    {% if jobs.has_next %}
+    <div class="container my-3" style="display: flex; justify-content: space-between;">
+
+        <a href="?page={{jobs.next_page_number}}"><button type="button" class="btn btn-secondary btn-sm px-4">
+                Next<i class="bi bi-arrow-right ms-2"></i></button></a>
+        {% endif %}
+    </div>
+    {% else %}
+    <p>You have not posted any jobs yet.</p>
+    {% endif %}
 
 
 
-{% endblock content %}
+    {% endblock content %}

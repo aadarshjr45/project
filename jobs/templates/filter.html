@@ -2,9 +2,7 @@
 {% include 'navbar.html' %}
 
 {% load static %}
-{% block title %}
-<title>jobFinder</title>
-{% endblock title %}
+
 
 
 
@@ -14,6 +12,11 @@
 
 {% block content %}
 <section class="jobsearch" style="background-color: #F7F5EB;">
+    <div class="container" id="jobsearch">
+        <form method="post" name="form" class="jobsearchform">
+            <input type="text" name="searchjob" placeholder="Enter Job Title">
+        </form>
+    </div>
     <div class="container mt-4" id="searchfilter">
         <form action="{% url 'jobs:filter_view' %}" name="searchfiler" method="post"> {% csrf_token %}
             <div class="container" id="searchcardcontainer">
@@ -44,11 +47,13 @@
         </form>
     </div>
 </section>
+
+
 {% if jobs %}
 
 
 <section class="card">
-    <div class="container mt-5" style="display: inline-block;">
+    <div class="container" style="display: inline-block;">
 
         <div class="container" id="cardcontainer">
             {% for job in jobs %}
@@ -79,7 +84,29 @@
 
 {% else %}
 
-<h2> Jobs with your filter are not available. </h2>
+<section class="card">
+    <div class="container" style="display: inline-block;">
+
+        <div class="container" id="cardcontainer">
+
+
+            <div id="">
+
+
+
+                <div class="card-body">
+
+                    <h5 class="fw-normal">Job with your filter is not available</h5 class="fw-normal fs-6">
+
+                </div>
+
+            </div>
+
+
+
+        </div>
+    </div>
+</section>
 
 {% endif %}
 {% endblock content %}

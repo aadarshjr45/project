@@ -17,10 +17,12 @@
         <div class="pt-3 pb-2 mb-3 border-bottom">
             <h1 class="h5">My Applications</h1>
         </div>
+       
         <div class="row g-4 row-cols-1 row-cols-lg-3">
             {% for application in applications %}
             {% if request.user == application.submitted_by %}
             <div class="feature col" style="width: auto">
+            
                 <div class="text-left ps-4 py-4 px-4" style="background-color: #edf0f3; border-radius: 10px">
                     <p class="fw-normal">Resume: <a href="{{ application.resume.url }}"> View Application</a></p>
                     <p class="fw-normal">Submitted For: {{ application.submitted_for }}r</p>
@@ -52,12 +54,16 @@
                         </a>
                         {% endif %}
                     </div>
-                </div>
-                {% endif %}
-                {% endfor %}
             </div>
         </div>
+                {% endif %}
+                {% endfor %}
+    
+           
+          
+        </div>
     </div>
+   
 </section>
 
 

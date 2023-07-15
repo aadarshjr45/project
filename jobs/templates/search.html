@@ -4,11 +4,7 @@
 
 {% block content %}
 <section class="jobsearch" style="background-color: #F7F5EB;">
-    <div class="container" id="jobsearch">
-        <form method="post" name="form" class="jobsearchform">
-            <input type="text" name="searchjob" placeholder="Enter Job Title">
-        </form>
-    </div>
+   
     <div class="container mt-4" id="searchfilter">
         <form action="{% url 'jobs:filter_view' %}" name="searchfiler" method="post"> {% csrf_token %}
             <div class="container" id="searchcardcontainer">
@@ -32,7 +28,7 @@
                 <div class="filterbutton">
                     <button type="reset" value="reset"
                         style="border: 2px solid #B6C6FF; background-color: #F5f5f7;">Clear</button>
-                    <button type="submit" value="submit">Filter<img class="ms-1" src="icon/filter.png" width="18px"
+                    <button type="submit" value="submit">Filter<img class="ms-1" src="{% static 'filter.png' %}" width="18px"
                             height="15px"></button>
                 </div>
             </div>
@@ -52,7 +48,7 @@
             <div id="cardbox">
 
                 <div class="card flex-row"><img class="card-img-left example-card-img-responsive" src="{{job.logo.url}}"
-                        width="150px" height="120px" alt="" />
+                        width="150px" height="170px" alt="" />
 
                     <div class="card-body">
                         <h4 class="fw-bold fs-5" style="color: #0d1e5c;"> {{job.title}} </h4>
@@ -85,7 +81,7 @@
 
                 <div class="card-body">
 
-                    <h5 class="fw-normal fs-6">Job with your search text is not available</h5>
+                    <h5 class="fw-normal">Job with your filter is not available</h5 class="fw-normal fs-6">
 
                 </div>
 
@@ -97,5 +93,6 @@
     </div>
 </section>
 {% endif %}
+{% include 'footer.html' %}
 
 {% endblock %}

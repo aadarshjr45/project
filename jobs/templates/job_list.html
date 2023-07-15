@@ -8,19 +8,14 @@
 
 
 
-
 {% block content %}
 
+<link rel="stylesheet" href="{% static 'staticfiles/css/joblist.css' %}">
 
-{% if jobs %}
 <section class="jobsearch" style="background-color: #F7F5EB;">
-    <div class="container" id="jobsearch">
-        <form method="post" name="form" class="jobsearchform">
-            <input type="text" name="searchjob" placeholder="Enter Job Title">
-        </form>
-    </div>
+    
     <div class="container mt-4" id="searchfilter">
-        <form action="{% url 'jobs:filter_view' %}" name="searchfiler" method="post"> {% csrf_token %}
+        <form action="{% url 'jobs:filter_view' %}" name="searchfilter" method="post"> {% csrf_token %}
             <div class="container" id="searchcardcontainer">
                 <div class="dropdown" name="dropdown">
                     {% for field in category %}
@@ -42,13 +37,16 @@
                 <div class="filterbutton">
                     <button type="reset" value="reset"
                         style="border: 2px solid #B6C6FF; background-color: #F5f5f7;">Clear</button>
-                    <button type="submit" value="submit">Filter<img class="ms-1" src="icon/filter.png" width="18px"
+                    <button type="submit" value="submit">Filter<img class="ms-1" src="{% static 'filter.png' %}" width="18px"
                             height="15px"></button>
                 </div>
             </div>
         </form>
     </div>
 </section>
+
+{% if jobs %}
+
 <section class="card">
     <div class="container" style="display: inline-block;">
 
@@ -59,12 +57,14 @@
             <div id="cardbox">
 
                 <div class="card flex-row"><img class="card-img-left example-card-img-responsive" src="{{job.logo.url}}"
-                        width="150px" height="120px" alt="" />
+                        width="170px" height="200px" alt="" />
 
                     <div class="card-body">
                         <h4 class="fw-bold fs-5" style="color: #0d1e5c;"> {{job.title}} </h4>
-                        <h5 class="fw-bolder fs-6"> {{job.company_name}} Company </h5>
-                        <h5 class="fw-normal fs-6"> {{job.description}} </h5>
+                        <h5 class="fw-bolder fs-6"> Company :{{job.company_name}} </h5>
+                        <h5 class="fw-normal fs-6"> Category: {{job.category}} </h5>
+                        <h5 class="fw-normal fs-6"> level: {{job.level}} </h5>
+                        <h5 class="fw-normal fs-6"> type: {{job.type}} </h5>
                         <p><small>Valid Till: {{ job.application_valid}}</small></p>
                         <h5 class="fw-normal fs-6"><a href="{% url 'jobs:job_detail' job.id %}"
                                 style="color: black;">More Details</a></h5>
@@ -76,26 +76,24 @@
             {% endfor %}
 
         </div>
+        <div class="container my-3 ml-1" style="display: flex; justify-content: space-between;">
+            {% if jobs.has_previous %}
+                <a href="?page={{jobs.previous_page_number}}"><button type="button" class="btn btn-secondary btn-sm px-4">
+                        <i class="bi bi-arrow-left me-2"></i>Previous</button></a>
+                {% endif %}
+            
+                {% if jobs.has_next %}
+                    <a href="?page={{jobs.next_page_number}}"><button type="button" class="btn btn-secondary btn-sm px-4">
+                            Next<i class="bi bi-arrow-right ms-2"></i></button></a>
+                    {% endif %}
+                </div>
     </div>
 </section>
 
-{% if jobs.has_previous %}
-<div class="container my-3" style="display: flex; justify-content: space-between;">
-    <a href="?page={{jobs.previous_page_number}}"><button type="button" class="btn btn-secondary btn-sm px-4">
-            <i class="bi bi-arrow-left me-2"></i>Previous</button></a>
-    {% endif %}
 
-    {% if jobs.has_next %}
-    <div class="container my-3" style="display: flex; justify-content: space-between;">
-
-        <a href="?page={{jobs.next_page_number}}"><button type="button" class="btn btn-secondary btn-sm px-4">
-                Next<i class="bi bi-arrow-right ms-2"></i></button></a>
-        {% endif %}
-    </div>
-    {% else %}
-    <p>You have not posted any jobs yet.</p>
+   
     {% endif %}
 
 
-
+{% include 'footer.html' %}
     {% endblock content %}

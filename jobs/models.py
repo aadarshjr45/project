@@ -7,7 +7,7 @@ from django.core.validators import FileExtensionValidator
 
 class Category(models.TextChoices):
 
-    NONE = "-----------", "Select One Category"
+    NONE = "None" "Select One Category"
     FREELANCER = "Free Lancer","Free Lancer"
     PARTTIME = "Part Time","Part Time"
     FULLTIME = "Full Time", "Full Time"
@@ -16,7 +16,7 @@ class Category(models.TextChoices):
     CONTRACT = "Contract", "Contract"
 
 class Level(models.TextChoices):
-    NONE = "-----------", "Select One Level"
+    NONE = "None" "Select One Level"
     ENTRY = "Entry","Entry"
     MID = "Mid","Mid"
     SENIOR = "Senior", "Senior"
@@ -24,8 +24,8 @@ class Level(models.TextChoices):
 
 
 class Type(models.TextChoices):
-    NONE = "-----------", "Select One Type"
-    TEACHER = "teacher","Teacher"
+    NONE = "None" "Select One Type"
+    TEACHER = "Teacher","Teacher"
     IT = "IT","IT"
     COMPUTERPROGRAMMER = "Computer Programmer", "Computer Programmer"
     GRAPHICSDESIGNER = "Graphics Designer", "Graphics Designer"
@@ -83,7 +83,7 @@ class Job(models.Model):
     location = models.CharField(max_length=201)
     minsalary = models.CharField(max_length=100)
     maxsalary = models.CharField(max_length=100)
-    created_at = models.DateField(auto_now_add=True)
+    created_at = models.DateTimeField(auto_now_add=True)
     application_valid = models.DateField()
     category = models.CharField(choices=Category.choices,default=None)
     type = models.CharField(choices=Type.choices,default=None)
@@ -127,6 +127,10 @@ class Message(models.Model):
 
     def __str__(self):
         return self.status
+    
+
+
+
 
 
 

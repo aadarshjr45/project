@@ -8,140 +8,66 @@ from jobs.forms import JobForms, CategoryForm, TypeForm, LevelForm
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Q
-import pandas as pd
-import numpy as np
-from sklearn.preprocessing import StandardScaler,OneHotEncoder
-from sklearn.compose import ColumnTransformer
+from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
-import random
 import warnings
 warnings.filterwarnings('ignore')
     
-# def get_job_recommendations(user, job_similarity, jobs, num_recommendations):
-#     user_jobs = jobs.filter(user=user)
-#     if user_jobs.exists():
-#         user_job_categories = user_jobs.values_list('category', flat=True).distinct()
-#         user_similar_jobs = []
-
-#         for category in user_job_categories:
-#             similar_scores = job_similarity[category].sort_values(ascending=False)
-#             similar_jobs = similar_scores.iloc[1:num_recommendations+1].index.tolist()
-#             user_similar_jobs.extend(similar_jobs)
-
-#         recommended_jobs = jobs.filter(category__in=user_similar_jobs)
-#         recommended_jobs = recommended_jobs.exclude(user=user)
-#         return recommended_jobs.order_by('?')[:num_recommendations]
-
-#     else:
-#         return jobs.order_by('?')[:num_recommendations]
-
-# def main(request):
-#     jobs = Job.objects.get_queryset()
-
-#     # numeric_job_fields = pd.DataFrame(jobs.values_list('salary', flat=True))
-
-#     categorical_job_fields = pd.DataFrame(jobs.values_list('category', flat=True))
-#     # print(numeric_job_fields)
-  
-#     numeric_transformer = StandardScaler()
-#     categorical_transformer = OneHotEncoder()
-
-#     preprocessor = ColumnTransformer(
-#         transformers=[
-#             # ('numeric', numeric_transformer, numeric_job_fields),
-#             ('categorical', categorical_transformer, categorical_job_fields)
-#         ] ,
-#         remainder='drop',
-#                     n_jobs=-1)
-
-#     job_values = []
-#     for job in jobs:
-#         print(categorical_job_fields)
-#         # numeric_values = [getattr(job, field) for field in numeric_job_fields]
-#         categorical_values = [getattr(job, field) for field in categorical_job_fields]
-#         job_values.append(categorical_values)
+def ml_recommendation_system(job, top_n=5):
+    try:
+        # Preprocess and vectorize the text data
+        category = job.category
+        level = job.level
+        type = job.type
         
+
+        # jobs = models.job.objects.exclude(pk=job.pk, category=category)
+        jobs = Job.objects.filter(Q(category__contains = category) | Q(level__contains = level) | Q(type__contains = type) ).exclude(pk=job.pk)
+        texts = [
+            job.title + " " + job.description + " " + job.level
+            for job in jobs
+        ]
+        vectorizer = TfidfVectorizer()
+        feature_vectors = vectorizer.fit_transform(texts)
+
+        # Calculate similarity scores
+        job_vector = vectorizer.transform(
+            [job.title + " " + job.description + " " + job.level]
+        )
+        similarity_scores = cosine_similarity(job_vector, feature_vectors).flatten()
+
+        # Get the indices of the top similar jobs
+        top_indices = similarity_scores.argsort()[::-1][:top_n]
+
+        # Retrieve the top similar jobs
+        similar_jobs = [jobs[idx] for idx in top_indices.tolist()]
+        print(similar_jobs)
+        return similar_jobs
+        
+    except ValueError as e:
+        print(str(e))
+        return []
     
-#     jobs_reshaped =preprocessor.fit_transform(job_values)
-#     print(jobs_reshaped)
-#     job_similarity = cosine_similarity(jobs_reshaped)
-#     job_similarity_df = pd.DataFrame(job_similarity, index=jobs.values_list('category', flat=True), columns=jobs.values_list('category', flat=True))
-
-#     num_recommendations = 5
-#     num = random.randint(1, 38)
-#     user =request.user   
-#     print(f"User: {user}")
-
-#     recommended_jobs = get_job_recommendations(user, job_similarity_df, jobs, num_recommendations)
-
-#     print("Recommended Jobs:")
-#     print(recommended_jobs)
-
-# if __name__ == "__main__":
-#     main()
-
-
-# def calculate_job_similarities(user_jobs):
-#     """
-#     Calculates the similarity between the user's previous jobs.
-
-#     Args:
-#         user_jobs: A list of jobs.
-
-#     Returns:
-#         A Pandas DataFrame of job similarities.
-#     """
-
-#     # Create a list of the job features.
-#     job_features = ['category', 'type', 'salary']
-
-#     # Create a Pandas DataFrame of the user's previous jobs.
-#     user_jobs_df = pd.DataFrame(user_jobs.values_list(*job_features), columns=job_features)
-
-#     # Calculate the cosine similarity between the user's previous jobs.
-#     job_similarities = cosine_similarity(user_jobs_df)
-
-#     return job_similarities
-
-# def get_job_recommendations(user, jobs, num_recommendations):
-#     """
-#     Recommends jobs to the user based on their previous jobs selections.
-
-#     Args:
-#         user: The user ID.
-#         jobs: A list of jobs.
-#         num_recommendations: The number of recommendations to return.
-
-#     Returns:
-#         A list of recommended jobs.
-#     """
-
-#     # Create a list of the user's previous jobs.
-#     user_jobs = jobs.filter(user=user)
-
-#     # Calculate the similarity between the user's previous jobs.
-#     job_similarities = calculate_job_similarities(user_jobs)
-
-#     # Identify the most similar jobs to the user's previous jobs.
-#     most_similar_jobs = job_similarities.sort_values(ascending=False)[:num_recommendations]
-
-#     # Return the top `n` most similar jobs to the user.
-#     return most_similar_jobs
-
-def homepage(request):
-    jobs = Job.objects.order_by("-created_at")[:6]
-    return render(request, "index.html", {"jobs": jobs})
 
 def jobseeker_check(user):
     return not user.is_employer
 
+
+
+def homepage(request):
+    jobs = Job.objects.order_by("-created_at")[:4]
+    return render(request, "index.html", {"jobs": jobs})
+
+
+@login_required
+@user_passes_test(jobseeker_check)
 def job_list(request):
     category = CategoryForm(request.POST or None)
     type = TypeForm(request.POST or None)
     level = LevelForm(request.POST or None)
     date = timezone.now().date()
     jobs = Job.objects.all().order_by("-created_at")
-    paginator = Paginator(jobs,per_page = 4)
+    paginator = Paginator(jobs,per_page = 3)
     page_number = request.GET.get("page")
     try:
         page_obj = paginator.get_page(
@@ -157,6 +83,7 @@ def job_list(request):
     return render(
         request, "job_list.html", {"jobs": page_obj, "date": date, "category": category, "type": type, "level": level}
     )
+    
 
 @login_required(login_url="login")
 @user_passes_test(jobseeker_check)
@@ -166,10 +93,10 @@ def job_detail(request, job_id):
     date = timezone.now().date()
     user = request.user
     applications = Application.objects.filter(submitted_by=user, submitted_for=jobs)
-    print(applications)
+    similar_jobs = ml_recommendation_system(jobs, top_n=5)
 
     return render(
-        request, "details.html", {"jobs": jobs, "applications": applications, "all": all, "date": date}
+        request, "details.html", {"jobs": jobs, "applications": applications, "all": all, "date": date, "similar_jobs": similar_jobs}
     )
 
 

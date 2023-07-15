@@ -14,7 +14,7 @@
             class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
             <h1 class="h5">Message received on {{ message.created_at }}</h1>
         </div>
-        <p>Dear {{message.applicant_name}},</p>
+        <p>Dear {{request.user.first_name}},</p>
         <p style="text-align: justify;">{{message.message}}</p>
         <p>Best Regards,</p>
         <p>{{ message.employer_name }}<br>
@@ -23,5 +23,6 @@
 </section>
 
 
+{% include 'footer.html' %}
 
 {% endblock %}

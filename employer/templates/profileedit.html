@@ -13,7 +13,7 @@
         class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
         <h1 class="h5">Edit Profile</h1>
     </div>
-    <form action="#" name="searchfiler" method="post">{% csrf_token %}
+    <form action="#" name="searchfiler" method="post" enctype="multipart/form-data">{% csrf_token %}
         {% for field in form %}
 
         <div class="mb-3">
@@ -25,6 +25,14 @@
         </div>
 
         {% endfor %}
+        <div class="mb-3">
+            <div class="mb-3" style="text-align: left;">
+                <button class="px-3" type="submit" value="submit" 
+                style="background-color: #B6C6FF; border-radius: 5px; border:none; height: 4vh; width:auto;"
+                onmouseover="this.style.backgroundColor='#8ca3f5';"
+                onmouseout="this.style.backgroundColor='#B6C6FF';">Update Profile</button>
+            </div>
+        </div>  
     </form>
 </main>
 

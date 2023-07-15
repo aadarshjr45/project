@@ -226,7 +226,7 @@ def profile_edit(request,id):
         form.save()
         return HttpResponseRedirect(
             reverse(
-                "users:profile",
+                "employer:profile",
                 args=(
                     user.id,
                 ),

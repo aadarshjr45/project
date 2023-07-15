@@ -1,9 +1,12 @@
 {% extends 'base.html' %}
 {% block title %}
+
+{% load static %}
 <title>Job for {{ jobs.title }}</title>
 {% endblock title %}
 
 {% block content %}
+
 
 
 
@@ -42,8 +45,12 @@
                                 <td style="text-align: justify;"> {{jobs.location}} </td>
                             </tr>
                             <tr>
-                                <th>Salary </th>
-                                <td style="text-align: justify;"> {{jobs.salary}} </td>
+                                <th>Minimum Salary </th>
+                                <td style="text-align: justify;"> {{jobs.minsalary}} </td>
+                            </tr>
+                            <tr>
+                                <th>Maximum Salary </th>
+                                <td style="text-align: justify;"> {{jobs.maxsalary}} </td>
                             </tr>
                             <tr>
                                 <th>Job Type </th>
@@ -58,6 +65,10 @@
                                 <td style="text-align: justify;"> {{jobs.level}} </td>
                             </tr>
                             <tr>
+                                <tr>
+                                    <th>Posted By </th>
+                                    <td style="text-align: justify;"> {{jobs.posted_by.first_name}} {{jobs.posted_by.last_name}} </td>
+                                </tr>
                                 <th>Posted On </th>
                                 <td style="text-align: justify;"> {{jobs.created_at}} </td>
                             </tr>
@@ -99,6 +110,7 @@
 </section>
 
 <!-- ========================================= footer section ================================================== -->
+{% include 'footer.html' %}
 
 
 {%endblock content%}

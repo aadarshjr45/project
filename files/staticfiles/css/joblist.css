@@ -232,17 +232,21 @@
     padding-bottom: 1rem;
     border: 0.5px solid rgb(197, 195, 195);
     display: grid;
+    border: 5px;
     grid-gap: 1rem;
     grid-template-columns: repeat(auto-fit, minmax(45vh, 1fr));
     justify-content: center;
 }
 
-
-#cardbox:hover {
-    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
-
+#cardbox {
+    border: 1px solid rgb(224, 218, 218);
+    border-radius: 5px;
 }
 
+#cardbox:hover {
+    box-shadow: rgba(40, 39, 39, 0.2) 0px 2px 8px 0px;
+
+}
 
 .searchcard {
     border: none;

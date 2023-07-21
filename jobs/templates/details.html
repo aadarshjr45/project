@@ -45,13 +45,10 @@
                                 <td style="text-align: justify;"> {{jobs.location}} </td>
                             </tr>
                             <tr>
-                                <th>Minimum Salary </th>
-                                <td style="text-align: justify;"> {{jobs.minsalary}} </td>
+                                <th>Salary </th>
+                                <td style="text-align: justify;"> {{jobs.salary}} </td>
                             </tr>
-                            <tr>
-                                <th>Maximum Salary </th>
-                                <td style="text-align: justify;"> {{jobs.maxsalary}} </td>
-                            </tr>
+
                             <tr>
                                 <th>Job Type </th>
                                 <td style="text-align: justify;"> {{jobs.type|capfirst}} </td>
@@ -65,13 +62,19 @@
                                 <td style="text-align: justify;"> {{jobs.level}} </td>
                             </tr>
                             <tr>
-                                <tr>
-                                    <th>Posted By </th>
-                                    <td style="text-align: justify;"> {{jobs.posted_by.first_name}} {{jobs.posted_by.last_name}} </td>
-                                </tr>
+                                <th>No of Openings</th>
+                                <td style="text-align: justify;"> {{jobs.no_of_openings}} </td>
+                            </tr>
+                            <tr>
+                                <th>Posted By </th>
+                                <td style="text-align: justify;"> {{jobs.posted_by.first_name}}
+                                    {{jobs.posted_by.last_name}} </td>
+                            </tr>
+                            <tr>
                                 <th>Posted On </th>
                                 <td style="text-align: justify;"> {{jobs.created_at}} </td>
                             </tr>
+
                             <tr>
                                 <th>Valid Till </th>
                                 <td style="text-align: justify;"> {{jobs.application_valid}} </td>
@@ -84,10 +87,11 @@
                                 <td style="text-align: justify;"> You have already applied for this job. </td>
 
                                 {% else %}
-                                <td style="text-align: justify;"><a href="{% url 'jobs:apply_job' jobs.id %}"
-                                        class="btn btn-secondary btn-sm"><i class="bi bi-link-45deg"></i>
-                                        Apply</a>
-
+                                <td style="text-align: justify;">
+                                    <form action="{% url 'jobs:apply_job' jobs.id %}" method="post"> {% csrf_token %}
+                                        <button class="btn btn-secondary btn-sm"><i class="bi bi-link-45deg"></i>
+                                            Apply </button>
+                                    </form>
                                 </td>
                                 {% endif %}
                                 {% endif %}
@@ -114,3 +118,40 @@
 
 
 {%endblock content%}
+
+{% block script %}
+{{block.super }}
+<script>
+    document.getElementById('apply-job-link').addEventListener('click', function (event) {
+        event.preventDefault(); // Prevent the default link behavior (redirect)
+
+        // Create a hidden form to perform the POST request
+        var form = document.createElement('form');
+        form.method = 'POST';
+        form.action = this.getAttribute('href'); // Get the URL from the link's href attribute
+
+        // Add a CSRF token if your site requires it (Django CSRF protection)
+        var csrfToken = document.getElementsByName('csrfmiddlewaretoken')[0].value;
+        var csrfInput = document.createElement('input');
+        csrfInput.type = 'hidden';
+        csrfInput.name = 'csrfmiddlewaretoken';
+        csrfInput.value = csrfToken;
+        form.appendChild(csrfInput);
+
+        // Add any other data you want to send as POST parameters (if needed)
+        // For example:
+        var job_id = this.getAttribute('data-job-id');
+        var jobIdInput = document.createElement('input');
+        jobIdInput.name = '{{request.user.first_name}}';
+        jobIdInput.email = '{{request.user.email}}';
+        jobIdInput.submitted_for_id = '{{jobs.id}}';
+        jobIdInput.submitted_by_id = '{{request.user.id}}';
+        form.appendChild(jobIdInput);
+
+        // Add the form to the document and submit it
+        document.body.appendChild(form);
+        form.submit();
+    });
+</script>
+
+{% endblock script %}

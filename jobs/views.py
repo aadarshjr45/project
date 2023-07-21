@@ -4,7 +4,7 @@ from django.urls import reverse
 from django.http import HttpResponseRedirect
 from jobs.models import Job, Application
 from django.utils import timezone
-from jobs.forms import JobForms, CategoryForm, TypeForm, LevelForm
+from jobs.forms import JobForms, CategoryForm, TypeForm, LevelForm, SalaryForm
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Q
@@ -53,7 +53,6 @@ def jobseeker_check(user):
     return not user.is_employer
 
 
-
 def homepage(request):
     jobs = Job.objects.order_by("-created_at")[:4]
     return render(request, "index.html", {"jobs": jobs})
@@ -65,6 +64,7 @@ def job_list(request):
     category = CategoryForm(request.POST or None)
     type = TypeForm(request.POST or None)
     level = LevelForm(request.POST or None)
+    salary = SalaryForm(request.POST or None)
     date = timezone.now().date()
     jobs = Job.objects.all().order_by("-created_at")
     paginator = Paginator(jobs,per_page = 3)
@@ -81,7 +81,7 @@ def job_list(request):
         page_obj = paginator.page(paginator.num_pages)
    
     return render(
-        request, "job_list.html", {"jobs": page_obj, "date": date, "category": category, "type": type, "level": level}
+        request, "job_list.html", {"jobs": page_obj, "date": date, "category": category, "type": type, "level": level, "salary": salary}
     )
     
 
@@ -106,29 +106,31 @@ def job_detail(request, job_id):
 @user_passes_test(jobseeker_check)
 def apply_job(request, job_id):
     jobs = Job.objects.get(id=job_id)
-    if request.method == "POST":
-        name = request.POST.get("name")
-        email = request.POST.get("email")
-        resume = request.FILES.get("resume")
-        submitted_for_id = request.POST.get("submitted_for_id")
-        submitted_by_id = request.POST.get("submitted_by_id")
-        applicant = Application(
-            name=name,
-            email=email,
-            resume=resume,
-            submitted_for_id=submitted_for_id,
-            submitted_by_id=submitted_by_id,
-            posted_by=jobs.posted_by,
-        )
-        applicant.save()
-        return HttpResponseRedirect(reverse("users:application_view"))
-    return render(request, "job_apply.html", {"job": jobs})
+    user = request.user
+    resume = user.resume
+    # if request.method == "POST":
+    name = user.first_name + " " + user.last_name
+    email = user.email
+    submitted_for_id = jobs.id
+    submitted_by_id = user.id
+    applicant = Application(
+        name=name,
+        email=email,
+        submitted_for_id=submitted_for_id,
+        submitted_by_id=submitted_by_id,
+        posted_by=jobs.posted_by,
+        resume=resume,
+    )
+    applicant.save()
+    return HttpResponseRedirect(reverse("users:application_view"))
+    # return render(request, "job_apply.html", {"job": jobs})
 
 
 def search_view(request):
     categoryform = CategoryForm(request.POST)
     typeform = TypeForm(request.POST)
     levelform = LevelForm(request.POST)
+    salaryform = SalaryForm(request.POST) 
     if request.method == "POST":
         searchtext = request.POST["searchtext"]
         print(searchtext)
@@ -150,7 +152,7 @@ def search_view(request):
             # if page is empty then return last page
             page_obj = paginator.page(paginator.num_pages)
         return render(
-            request, "search.html", {"searchtext": searchtext, "jobs": page_obj, "category": categoryform, "type": typeform, "level": levelform}
+            request, "search.html", {"searchtext": searchtext, "jobs": page_obj, "category": categoryform, "type": typeform, "level": levelform, "salary": salaryform}
         )
     return render(request, "search.html")
 
@@ -160,14 +162,17 @@ def filter_view(request):
     categoryform = CategoryForm(request.POST)
     typeform = TypeForm(request.POST)
     levelform = LevelForm(request.POST)
+    salaryform = SalaryForm(request.POST)
     if request.method == "POST":
         category = request.POST["category"]
         type = request.POST["type"]
         level = request.POST["level"]
+        salary = request.POST["salary"]
         filterjob = Job.objects.filter(
             Q(category__contains=category)
             | Q(type__contains=type)
             | Q(level__contains=level)
+            | Q(salary__contains=salary)
         )
 
         print(filterjob)
@@ -183,5 +188,5 @@ def filter_view(request):
         except EmptyPage:
             # if page is empty then return last page
             page_obj = paginator.page(paginator.num_pages)
-        return render(request, "filter.html", {"jobs": page_obj, "category": categoryform, "type": typeform, "level": levelform})
+        return render(request, "filter.html", {"jobs": page_obj, "category": categoryform, "type": typeform, "level": levelform, "salary": salaryform})
     return render(request, "filter.html")

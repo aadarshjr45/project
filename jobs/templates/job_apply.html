@@ -19,7 +19,7 @@
         </div>
         <div class="mb-3">
             <label for="exampleFormControlInput1" class="form-label">Upload Your Resume:</label>
-            <input type="file" class="form-control" name="resume" accept="application/pdf">
+            <input type="file" class="form-control" name="resume" accept="application/pdf" value="{{request.user.resume}}">
         </div>
         <input type="hidden" value='{{job.id}}' class="form-control" name="submitted_for_id" readonly>
         <input type="hidden" value='{{job.id}}' class="form-control" name="posted_by" readonly>

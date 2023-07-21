@@ -106,6 +106,7 @@ class SignUpForm(UserCreationForm):
             "password2",
             "is_employer",
             "image",
+            "resume"
             )
 
        
@@ -127,6 +128,7 @@ class SignUpForm(UserCreationForm):
         self.fields['password1'].label = "Password"
         self.fields['password2'].label = "Confirm Password"
         self.fields['image'].label = "Profile Picture"
+        self.fields['resume'].label = "Upload Your Resume"
         self.fields['is_employer'].label = "Are you an employer?"
 
         self.fields['username'].help_text = "Username must be unique."
@@ -146,6 +148,7 @@ class ProfileForm(forms.ModelForm):
             "username",
             "email",
             "image",
+            "resume"
             )
        
     def __init__(self, *args, **kwargs):

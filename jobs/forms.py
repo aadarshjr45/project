@@ -5,10 +5,11 @@ from django.core.exceptions import ValidationError
 from upload_validator import FileTypeValidator, magic
 
 
+
 class JobForms(forms.ModelForm):
     class Meta:
         model = Job
-        exclude = ("posted_by", "company_name", "location", "company_website", "logo")
+        exclude = ("posted_by", "company_name", "location", "company_website", "logo", "company")
 
         widgets = {
             "application_valid": forms.DateInput(attrs={"type": "date"}),
@@ -64,6 +65,9 @@ class CategoryForm(forms.ModelForm):
         fields = ["category"]
 
 
+      
+
+
 class TypeForm(forms.ModelForm):
     class Meta:
         model = Job
@@ -73,3 +77,8 @@ class LevelForm(forms.ModelForm):
     class Meta:
         model = Job
         fields = ["level"]
+
+class SalaryForm(forms.ModelForm):
+    class Meta:
+        model = Job
+        fields = ["salary"]

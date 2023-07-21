@@ -4,8 +4,7 @@
 * {
     padding: 0px;
     margin: 0px;
-    font-family: 'Quicksand', sans-serif;
-
+    font-family: A
 }
 
 .navbar-brand {
@@ -232,12 +231,15 @@
 #cardcontainer {
     padding-top: 1rem;
     padding-bottom: 1rem;
+    margin: 1rem;
     border: 0.5px solid rgb(197, 195, 195);
     display: grid;
     grid-gap: 1rem;
     grid-template-columns: repeat(auto-fit, minmax(45vh, 1fr));
     justify-content: center;
 }
+
+
 
 
 #cardbox:hover {

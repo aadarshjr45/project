@@ -4,10 +4,24 @@ from turtle import bk, mode
 from django.db import models
 from users.models import User
 from django.core.validators import FileExtensionValidator
+from employer.models import Company
+
+
+class Salary(models.TextChoices):
+    NONE = "None", "Select Salary Range"
+    FIRST = "10000-20000","10000-20000"
+    SECOND = "20000-30000","20000-30000"
+    THIRD = "30000-40000","30000-40000"
+    FOURTH = "40000-50000","40000-50000"
+    FIFTH = "50000-60000","50000-60000"
+    SIXTH = "60000-70000","60000-70000"
+    SEVENTH = "70000-80000","70000-80000"
+    EIGHTH = "80000-90000","80000-90000"
+    NINTH = "90000-100000","90000-100000"
 
 class Category(models.TextChoices):
 
-    NONE = "None" "Select One Category"
+    NONE = "None", "Select One Category"
     FREELANCER = "Free Lancer","Free Lancer"
     PARTTIME = "Part Time","Part Time"
     FULLTIME = "Full Time", "Full Time"
@@ -16,7 +30,7 @@ class Category(models.TextChoices):
     CONTRACT = "Contract", "Contract"
 
 class Level(models.TextChoices):
-    NONE = "None" "Select One Level"
+    NONE = "None", "Select One Level"
     ENTRY = "Entry","Entry"
     MID = "Mid","Mid"
     SENIOR = "Senior", "Senior"
@@ -24,7 +38,7 @@ class Level(models.TextChoices):
 
 
 class Type(models.TextChoices):
-    NONE = "None" "Select One Type"
+    NONE = "None", "Select One Type"
     TEACHER = "Teacher","Teacher"
     IT = "IT","IT"
     COMPUTERPROGRAMMER = "Computer Programmer", "Computer Programmer"
@@ -81,8 +95,8 @@ class Job(models.Model):
     company_website = models.CharField(max_length=200)
     logo = models.FileField(upload_to='logo/',null=True,blank=True,validators=[FileExtensionValidator(allowed_extensions=['png','jpg','jpeg'])])
     location = models.CharField(max_length=201)
-    minsalary = models.CharField(max_length=100)
-    maxsalary = models.CharField(max_length=100)
+    no_of_openings = models.PositiveIntegerField()
+    salary = models.CharField(choices=Salary.choices,default=None,max_length=200)
     created_at = models.DateTimeField(auto_now_add=True)
     application_valid = models.DateField()
     category = models.CharField(choices=Category.choices,default=None)
@@ -90,6 +104,7 @@ class Job(models.Model):
     level = models.CharField(choices=Level.choices,default=None)
     modified_at = models.DateField(auto_now=True)
     posted_by = models.ForeignKey(User,on_delete= models.CASCADE)
+    company = models.ForeignKey(Company,on_delete=models.CASCADE,null=True,blank=True)
 
     def __str__(self):
         return self.title
@@ -97,15 +112,15 @@ class Job(models.Model):
 
 
 class Status(models.TextChoices):
-    PENDING = "pending","Pending"
-    ACCEPTED = "accepted","Accepted"
-    REJECTED = "rejected", "Rejected"
+    PENDING = "Pending","Pending"
+    ACCEPTED = "Accepted","Accepted"
+    REJECTED = "Rejected", "Rejected"
 
 
 class Application(models.Model):
     name = models.CharField(max_length=255, null=True, blank=True)
     email = models.EmailField(max_length=255,null=True, blank=True)
-    resume = models.FileField(upload_to='resumes/',null=True,blank=True,validators=[FileExtensionValidator(allowed_extensions=['pdf'])])
+    resume = models.FileField(upload_to='resume/',null=True,blank=True,validators=[FileExtensionValidator(allowed_extensions=['pdf'])])
     submitted_on = models.DateField(auto_now=True)
     posted_by = models.CharField(max_length=200, null=True, blank=True)
     submitted_by = models.ForeignKey(User, on_delete=models.CASCADE)

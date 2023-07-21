@@ -36,6 +36,7 @@ def post_job(request, id):
         add.location = company.company_location
         add.logo = company.logo
         add.posted_by = request.user
+        add.company = company
         # plus = Job(company_name = add.company_name, location = add.company_location, company_website = add.company_website, posted_by_id = request.user)
         add.save()
         return HttpResponseRedirect(reverse ('employer:jobs'))
@@ -96,6 +97,13 @@ def view_company(request):
     return render(request, 'viewcompany.html', {"company":company})
     
 
+@login_required(login_url="login")
+@user_passes_test(employer_check)
+def delete_company(request):
+    companyid = request.POST.get("companyid")
+    company = get_object_or_404(Company, id=companyid)
+    company.delete()
+    return HttpResponseRedirect(reverse("employer:dashboard"))
 
 
 @login_required(login_url='login')

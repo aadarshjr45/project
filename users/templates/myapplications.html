@@ -17,22 +17,22 @@
         <div class="pt-3 pb-2 mb-3 border-bottom">
             <h1 class="h5">My Applications</h1>
         </div>
-       
+
         <div class="row g-4 row-cols-1 row-cols-lg-3">
             {% for application in applications %}
             {% if request.user == application.submitted_by %}
             <div class="feature col" style="width: auto">
-            
+
                 <div class="text-left ps-4 py-4 px-4" style="background-color: #edf0f3; border-radius: 10px">
                     <p class="fw-normal">Resume: <a href="{{ application.resume.url }}"> View Application</a></p>
-                    <p class="fw-normal">Submitted For: {{ application.submitted_for }}r</p>
+                    <p class="fw-normal">Submitted For: {{ application.submitted_for }}</p>
                     <p class="fw-normal">Status: {{ application.status }}</p>
                     <p class="fw-normal">Submitted On: {{ application.submitted_on|date:"F d, Y" }}</p>
                     <div class="mt-5" style="border-top: 0.1px solid #bfc3cb">
                         <br>
-                        {% if application.status == "pending" %}
+                        {% if application.status == "Pending" %}
                         <p class="fw-normal">Your application is in pending.</p>
-                        {% elif application.status == "accepted" %}
+                        {% elif application.status == "Accepted" %}
                         <p class="fw-normal">Your application has been accepted.</p>
 
                         <a href="{% url 'users:view_message' application.id %}">
@@ -42,7 +42,7 @@
                                 onmouseout="this.style.backgroundColor='#B6C6FF';"><i class="bi bi-eye me-2"></i>View
                                 Message</button>
                         </a>
-                        {% elif application.status == "rejected" %}
+                        {% elif application.status == "Rejected" %}
                         <p class="fw-normal">Your application has been rejected.</p>
 
                         <a href="{% url 'users:view_message' application.id %}">
@@ -54,19 +54,21 @@
                         </a>
                         {% endif %}
                     </div>
+                </div>
             </div>
-        </div>
-                {% endif %}
-                {% endfor %}
-    
-           
-          
+
+            {% endif %}
+            {% endfor %}
+
+
+
         </div>
     </div>
-   
+
 </section>
 
-
+{% else %}
+<p class="fw-normal">You have not applied for any jobs yet.</p>
 
 {% endif %}
 

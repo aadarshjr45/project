@@ -210,7 +210,7 @@ def accept_application(request, id):
         company_name = request.POST.get("company_name")
         employer_name = request.POST.get("employer_name")
         applicant_name = request.POST.get("applicant_name")
-        status = "accepted"
+        status = "Accepted"
         accept = Message( message=message, status = status, application_id=application_id, company_name = company_name, applicant_name = applicant_name, employer_name = employer_name)
         accept.save()
         Application.objects.filter(id = application_id).update(status = status)
@@ -228,7 +228,7 @@ def reject_application(request, id):
         company_name = request.POST.get("company_name")
         employer_name = request.POST.get("employer_name")
         applicant_name = request.POST.get("applicant_name")
-        status = "rejected"
+        status = "Rejected"
         reject = Message( message=message, status = status, application_id=application_id, company_name = company_name, applicant_name = applicant_name, employer_name = employer_name)
         reject.save()
         Application.objects.filter(id = application_id).update(status = status)

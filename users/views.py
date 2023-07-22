@@ -3,14 +3,13 @@ from django.urls import reverse_lazy
 from django.contrib.auth import authenticate, login
 from django.contrib import messages
 from django.contrib.auth import get_user_model
-from django.contrib.auth.views import LoginView
+from .models import Contact
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required, user_passes_test
-from users.forms import  SignUpForm,ProfileForm, LoginForm
+from users.forms import  SignUpForm,ProfileForm, LoginForm, ContactForm
 from .models import User
 from jobs.models import Application, Message
-from jobs.forms import ApplicationForm
 
 
 User = get_user_model()
@@ -21,11 +20,6 @@ def jobseeker_check(user):
 # class UserLoginView(LoginView):
 #     template_name = "login.html"
    
-
-def contactus(request):
-    user = request.user
-    return render(request,'contact.html', {'user':user})
-
 def login_view(request):
     form = LoginForm(request.POST or None)
     next_url = request.POST.get('next')
@@ -130,3 +124,19 @@ def view_message(request, id):
         "applicaiton":application,
         "message":message,
     })
+
+def contactus(request):
+   
+    if request.method == 'POST':
+        name = request.POST.get('name')
+        email = request.POST.get('email')
+        subject = request.POST.get('subject')
+        message= request.POST.get('message')
+        add = Contact(name=name, email=email, subject=subject, message=message)
+        add.save()
+        if add:
+            messages.success(request, 'Your message is sent successfully')
+        return HttpResponseRedirect(reverse ('jobs:index'))
+    else:
+        form = ContactForm
+    return render(request,'contact.html', {'form':form})

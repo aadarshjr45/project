@@ -1,0 +1,22 @@
+{% load static %}
+
+<style>
+    .alert {
+        width: 50%;
+    }
+</style>
+
+<script type="text/javascript">
+    setTimeout(function () {
+        $('.alert').alert('close');
+    }, 1000);
+
+</script>
+
+{% if messages %}
+{% for message in messages %}
+<div class="alert alert-{{ message.tags }} fade show" role="alert" id="alert">
+    <strong>{{ message }}</strong>
+</div>
+{% endfor %}
+{% endif %}

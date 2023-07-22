@@ -4,7 +4,8 @@ from django.urls import reverse
 from django.http import HttpResponseRedirect
 from jobs.models import Job, Application
 from django.utils import timezone
-from jobs.forms import JobForms, CategoryForm, TypeForm, LevelForm, SalaryForm
+from jobs.forms import CategoryForm, TypeForm, LevelForm, SalaryForm
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Q
@@ -109,19 +110,26 @@ def apply_job(request, job_id):
     user = request.user
     resume = user.resume
     # if request.method == "POST":
-    name = user.first_name + " " + user.last_name
-    email = user.email
-    submitted_for_id = jobs.id
-    submitted_by_id = user.id
-    applicant = Application(
-        name=name,
-        email=email,
-        submitted_for_id=submitted_for_id,
-        submitted_by_id=submitted_by_id,
-        posted_by=jobs.posted_by,
-        resume=resume,
-    )
-    applicant.save()
+    if resume:
+        name = user.first_name + " " + user.last_name
+        email = user.email
+        submitted_for_id = jobs.id
+        submitted_by_id = user.id
+        applicant = Application(
+            name=name,
+            email=email,
+            submitted_for_id=submitted_for_id,
+            submitted_by_id=submitted_by_id,
+            posted_by=jobs.posted_by,
+            resume=resume,
+        )
+        apply = applicant.save()
+        if apply:
+            messages.success(request, "You have successfully applied for this job")
+            
+    else:
+        messages.warning(request, "Please upload your resume first")
+        return HttpResponseRedirect(reverse("users:profileedit", args=(user.id,)))
     return HttpResponseRedirect(reverse("users:application_view"))
     # return render(request, "job_apply.html", {"job": jobs})
 

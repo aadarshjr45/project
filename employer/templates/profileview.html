@@ -16,6 +16,7 @@
         class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
         <h1 class="h5">Profile View</h1>
     </div>
+    {% include 'flashmessage.html' %}
     {% if user.image %}
     <img class="img-fluid rounded mt-3" src="{{user.image.url}}" alt="profile" width="150px" height="120px"></img>
     {% else %}

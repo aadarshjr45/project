@@ -106,8 +106,9 @@ class SignUpForm(UserCreationForm):
             "password2",
             "is_employer",
             "image",
-            "resume"
+         
             )
+        
 
        
 
@@ -120,7 +121,13 @@ class SignUpForm(UserCreationForm):
         self.fields['email'].widget = forms.EmailInput(attrs={ 'placeholder': 'Email'})
         self.fields['password1'].widget = forms.PasswordInput(attrs={ 'placeholder': 'Password'})
         self.fields['password2'].widget = forms.PasswordInput(attrs={ 'placeholder': 'Password confirmation'})
+        self.fields['image'].widget = forms.FileInput(attrs={ 'placeholder': 'Profile Picture'})
+       
+
         
+        
+
+
         self.fields['first_name'].label = "First Name"
         self.fields['last_name'].label = "Last Name"
         self.fields['username'].label = "Username"
@@ -128,12 +135,16 @@ class SignUpForm(UserCreationForm):
         self.fields['password1'].label = "Password"
         self.fields['password2'].label = "Confirm Password"
         self.fields['image'].label = "Profile Picture"
-        self.fields['resume'].label = "Upload Your Resume"
         self.fields['is_employer'].label = "Are you an employer?"
+
+
 
         self.fields['username'].help_text = "Username must be unique."
         self.fields['email'].help_text = "Email must be unique."
         self.fields['password1'].help_text = "Password must be 8 characters or more and not too common"
+        
+        
+
 
         
 
@@ -157,4 +168,10 @@ class ProfileForm(forms.ModelForm):
         for visible in self.visible_fields():
             visible.field.widget.attrs["class"] = "form-control row-4"
 
+
+
+        
+        
+
+        
 

@@ -34,7 +34,6 @@ def login_view(request):
         if not user:
             raise ValueError("Invalid credentials")
         if user:
-           
             login(request,user)
             if next_url:
                 return HttpResponseRedirect(next_url)
@@ -53,8 +52,14 @@ def signup_view(request):
     if request.method == 'POST':
         form = SignUpForm(request.POST or None, request.FILES or None)
         if form.is_valid():
-            msg = "user registered"
-            form.save()
+            if 'resume' in request.FILES:
+                resume = request.FILES['resume']
+            else:
+                resume = None
+            insert = form.save(commit=False)
+            insert.resume = resume
+            insert.save()
+            messages.success(request, 'Your account is created successfully')
             return HttpResponseRedirect(reverse ('login'))
 
         else:
@@ -84,6 +89,7 @@ def profile_edit(request,id):
     if form.is_valid():
         form.save()
         messages.success(request, 'Your profile is updated successfully')
+        Application.objects.filter(submitted_by=user).update(resume = user.resume)
         return HttpResponseRedirect(
             reverse(
                 "users:profile",
@@ -92,6 +98,7 @@ def profile_edit(request,id):
                 ),
             )
         )
+    
     return render(request,"myprofileedit.html",{"form":form})
 
 @login_required(login_url='login')

@@ -2,12 +2,13 @@ from django.db.models import Q
 from django.shortcuts import render,redirect, get_object_or_404
 from django.urls import reverse,reverse_lazy
 from django.http import HttpResponseRedirect
+from django.contrib import messages
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.decorators import login_required, user_passes_test
 from jobs.models import Job, Application, Message
 from employer.models import Company
 from jobs.forms import JobForms
-from users.forms import ProfileForm
+from employer.forms import EmployerForm
 from employer.forms import CompanyForm
 from users.models import User
 from django.utils import timezone
@@ -26,20 +27,25 @@ def jobseeker_check(user):
 @user_passes_test(employer_check, redirect_field_name='jobs:index')
 def post_job(request, id):
     id = request.user
-    company = Company.objects.get(added_by = id)
-    print (company)
-    form = JobForms(request.POST or None, request.FILES or None)
-    if form.is_valid():
-        add = form.save(commit=False)
-        add.company_name = company.company_name
-        add.company_website = company.company_website
-        add.location = company.company_location
-        add.logo = company.logo
-        add.posted_by = request.user
-        add.company = company
-        # plus = Job(company_name = add.company_name, location = add.company_location, company_website = add.company_website, posted_by_id = request.user)
-        add.save()
-        return HttpResponseRedirect(reverse ('employer:jobs'))
+    comp = Company.objects.filter(added_by = id)
+    if comp:
+        company = Company.objects.get(added_by = id)
+        form = JobForms(request.POST or None, request.FILES or None)
+        if form.is_valid():
+            add = form.save(commit=False)
+            add.company_name = company.company_name
+            add.company_website = company.company_website
+            add.location = company.company_location
+            add.logo = company.logo
+            add.posted_by = request.user
+            add.company = company
+            # plus = Job(company_name = add.company_name, location = add.company_location, company_website = add.company_website, posted_by_id = request.user)
+            add.save()
+            messages.success(request, "Job posted successfully")
+            return HttpResponseRedirect(reverse ('employer:jobs'))
+    else:
+        messages.warning(request, "You need to register a company first")
+        return HttpResponseRedirect(reverse ('employer:add_company'))
     return render(request, 'post_job.html', {"form":form, "company":company,})
 
 @login_required(login_url="login")
@@ -48,7 +54,11 @@ def job_edit(request, id):
     job = get_object_or_404(Job, id=id)
     form = JobForms(request.POST or None, request.FILES or None, instance=job)
     if form.is_valid():
-        form.save()
+        save = form.save()
+        if save:
+            messages.success(request, "Job updated successfully")
+        else:
+            messages.error(request, "Error updating job")
         # return redirect(to='users:profile')
         return HttpResponseRedirect(
             reverse(
@@ -63,7 +73,11 @@ def job_edit(request, id):
 def job_delete(request):
     jobid = request.POST.get("jobid")
     job = get_object_or_404(Job, id=jobid)
-    job.delete()
+    save = job.delete()
+    if save:
+        messages.success(request, "Job deleted successfully")
+    else:
+        messages.error(request, "Error deleting job")
     return HttpResponseRedirect(reverse("employer:jobs"))
 
 @login_required(login_url='login')
@@ -76,8 +90,12 @@ def add_company(request):
     if form.is_valid():
         add = form.save(commit=False)
         add.added_by = request.user
-        add.save()
-        return HttpResponseRedirect(reverse ('employer:dashboard'))
+        added = add.save()
+        if added:
+            messages.success(request, "Company added successfully")
+        else:
+            messages.error(request, "Error adding company")
+        return HttpResponseRedirect(reverse ('employer:view_company'))
     return render(request, 'addcompany.html', {"form":form})
 
 @login_required(login_url='login')
@@ -86,8 +104,12 @@ def edit_company(request, id):
     company = Company.objects.get(added_by = request.user, id = id)
     form = CompanyForm(request.POST or None, request.FILES or None, instance = company)
     if form.is_valid():
-        form.save()
-        return HttpResponseRedirect(reverse ('employer:dashboard'))
+        save = form.save()
+        if save:
+            messages.success(request, "Company updated successfully")
+        else:
+            messages.error(request, "Error updating company")
+        return HttpResponseRedirect(reverse ('employer:view_company'))
     return render(request, 'editcompany.html', {"form":form})
 
 @login_required(login_url='login')
@@ -229,9 +251,10 @@ def profile_view(request,id):
 def profile_edit(request,id):
     user = get_object_or_404(User,id=id)
     company = Company.objects.filter(added_by = request.user)
-    form = ProfileForm(request.POST or None,request.FILES or None, instance = request.user)
+    form = EmployerForm(request.POST or None,request.FILES or None, instance = request.user)
     if form.is_valid():
         form.save()
+        messages.success(request, "Profile updated successfully")
         return HttpResponseRedirect(
             reverse(
                 "employer:profile",

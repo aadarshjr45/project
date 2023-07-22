@@ -6,7 +6,9 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
+	<link rel="icon" href="{% static 'staticfiles/logo.png' %}" type="image/icon type">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
+		integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 	<link rel="stylesheet" href="{% static 'staticfiles/css/login.css' %}">
 	<title>JobHub | Login</title>
@@ -15,7 +17,7 @@
 <body>
 
 	<div class="container">
-		<form action="#" class="login active" method="post"> {% csrf_token %}
+		<form action="" class="login active" method="post"> {% csrf_token %}
 			<h1 class="titleh1">JobHub</h1>
 			<h3 class="titleh3">Login with your account</h3>
 			{% if form.non_field_errors %}
@@ -24,7 +26,7 @@
 			{% endfor %}
 			</ul>
 			{% endif %}
-
+			{% include 'flashmessage.html' %}
 			<div class="form-group">
 				<label for="username">Username</label>
 				<div class="input-group">
@@ -49,5 +51,10 @@
 		</form>
 	</div>
 </body>
+<script src="{% static 'staticfiles/js/jqueryajax.min.js' %}"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
+	integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
+	crossorigin="anonymous"></script>
 
 </html>

@@ -33,8 +33,9 @@
 
 
                 <div class="filterbutton">
-                    <button type="reset" value="reset"
-                        style="border: 2px solid #B6C6FF; background-color: #F5f5f7;">Clear</button>
+                    <a href="{% url 'jobs:job_list' %}" style=" background-color: #F5f5f7; text-decoration: none;">
+                        <button type="button">
+                            Clear</button></a>
                     <button type="submit" value="submit">Filter<img class="ms-1" src="{% static 'filter.png' %}"
                             width="18px" height="15px"></button>
                 </div>

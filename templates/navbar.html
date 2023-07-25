@@ -28,38 +28,41 @@
 
 
         </ul>
-        <!-- ========================================after login======================================== -->
-        {% if request.user.is_authenticated %}
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              {{request.user.first_name}} <i class="bi bi-person-circle ms-2"></i>
-            </a>
-            <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="{% url 'users:profile' user.id %}"
-                  onmouseover="this.style.color='#007BFF';" onmouseout="this.style.color='#000';">My Profile</a></li>
-              <li><a class="dropdown-item" href="{% url 'users:application_view'%}"
-                  onmouseover="this.style.color='#007BFF';" onmouseout="this.style.color='#000';">My Application</a>
-              </li>
-              <li>
-                <hr class="dropdown-divider">
-              </li>
-              <li><a class="dropdown-item" href="{% url 'logout' %}" onmouseover="this.style.color='#007BFF';"
-                  onmouseout="this.style.color='#000';">Log Out</a></li>
-            </ul>
-          </li>
-        </ul>
-        {% endif %}
-
-
-        <!-- ========================================after login======================================== -->
-
         <div class="d-flex">
-          {% if not request.user.is_authenticated %}
-          <a href="{% url 'login' %}"> <button class="button-60">Login</button> </a>
-          <a href="{% url 'register' %}"> <button class="button-600 mx-3">Register</button> </a>
+          <!-- ========================================after login======================================== -->
+          {% if request.user.is_authenticated %}
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                aria-expanded="false">
+                {{request.user.first_name}} <i class="bi bi-person-circle ms-2"></i>
+              </a>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="{% url 'users:profile' user.id %}"
+                    onmouseover="this.style.color='#007BFF';" onmouseout="this.style.color='#000';">My Profile</a></li>
+                <li><a class="dropdown-item" href="{% url 'users:application_view'%}"
+                    onmouseover="this.style.color='#007BFF';" onmouseout="this.style.color='#000';">My Application</a>
+                </li>
+                <li>
+                  <hr class="dropdown-divider">
+                </li>
+                <li><a class="dropdown-item" href="{% url 'logout' %}" onmouseover="this.style.color='#007BFF';"
+                    onmouseout="this.style.color='#000';">Log Out</a></li>
+              </ul>
+            </li>
+          </ul>
           {% endif %}
 
+
+          <!-- ========================================after login======================================== -->
+
+          <div class="d-flex">
+            {% if not request.user.is_authenticated %}
+            <a href="{% url 'login' %}"> <button class="button-60" role="button">Login</button> </a>
+            <a href="{% url 'register' %}"> <button class="button-600 mx-3" role="button">Register</button> </a>
+            {% endif %}
+
+          </div>
         </div>
       </div>
     </div>

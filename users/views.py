@@ -134,8 +134,6 @@ def contactus(request):
         message= request.POST.get('message')
         add = Contact(name=name, email=email, subject=subject, message=message)
         add.save()
-        if add:
-            messages.success(request, 'Your message is sent successfully')
         return HttpResponseRedirect(reverse ('jobs:index'))
     else:
         form = ContactForm

@@ -91,10 +91,10 @@ class Type(models.TextChoices):
 class Job(models.Model):
     title = models.CharField(max_length=200)
     description = models.TextField()
-    company_name = models.CharField(max_length=200)
-    company_website = models.CharField(max_length=200)
+    company_name = models.CharField(max_length=200, null=True, blank=True)
+    company_website = models.CharField(max_length=200, null=True, blank=True)
     logo = models.FileField(upload_to='logo/',null=True,blank=True,validators=[FileExtensionValidator(allowed_extensions=['png','jpg','jpeg'])])
-    location = models.CharField(max_length=201)
+    location = models.CharField(max_length=201, null=True, blank=True)
     no_of_openings = models.PositiveIntegerField()
     salary = models.CharField(choices=Salary.choices,default=None,max_length=200)
     created_at = models.DateTimeField(auto_now_add=True)

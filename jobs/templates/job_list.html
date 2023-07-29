@@ -63,18 +63,22 @@
             <div id="cardbox">
                 <a href="{% url 'jobs:job_detail' job.id %}" style="display: block; text-decoration: none;">
 
+                    {% if job.logo.url %}
                     <div class="card flex-row"><img class="card-img-left example-card-img-responsive"
                             src="{{job.logo.url}}" width="190px" height="200px" alt="" />
-
-                        <div class="card-body">
-                            <h4 class="fw-bold fs-5" style="color: black;"> {{job.title}} </h4>
-                            <h5 class="fw-bolder fs-6" style="color: black;"> Company :{{job.company_name}} </h5>
-                            <h5 class="fw-normal fs-6" style="color: black;"> Category: {{job.category}} </h5>
-                            <h5 class="fw-normal fs-6" style="color: black;"> Level: {{job.level}} </h5>
-                            <h5 class="fw-normal fs-6" style="color: black;"> Type: {{job.type}} </h5>
-                            <p style="color: black;"><small>Valid Till: {{ job.application_valid}}</small></p>
+                        {% else %}
+                        <div class="card flex-row"><img class="card-img-left example-card-img-responsive"
+                                src="{% static 'blank.png' %}" width="190px" height="200px" alt="" />
+                            {% endif %}
+                            <div class="card-body">
+                                <h4 class="fw-bold fs-5" style="color: black;"> {{job.title}} </h4>
+                                <h5 class="fw-bolder fs-6" style="color: black;"> Company :{{job.company_name}} </h5>
+                                <h5 class="fw-normal fs-6" style="color: black;"> Category: {{job.category}} </h5>
+                                <h5 class="fw-normal fs-6" style="color: black;"> Level: {{job.level}} </h5>
+                                <h5 class="fw-normal fs-6" style="color: black;"> Type: {{job.type}} </h5>
+                                <p style="color: black;"><small>Valid Till: {{ job.application_valid}}</small></p>
+                            </div>
                         </div>
-                    </div>
                 </a>
 
             </div>

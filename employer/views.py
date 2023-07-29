@@ -93,8 +93,6 @@ def add_company(request):
         added = add.save()
         if added:
             messages.success(request, "Company added successfully")
-        else:
-            messages.error(request, "Error adding company")
         return HttpResponseRedirect(reverse ('employer:view_company'))
     return render(request, 'addcompany.html', {"form":form})
 
@@ -102,9 +100,12 @@ def add_company(request):
 @user_passes_test(employer_check)
 def edit_company(request, id):
     company = Company.objects.get(added_by = request.user, id = id)
+    jobs = Job.objects.filter(posted_by = request.user)
+    print (jobs)
     form = CompanyForm(request.POST or None, request.FILES or None, instance = company)
     if form.is_valid():
         save = form.save()
+        jobs.update(logo=save.logo)
         if save:
             messages.success(request, "Company updated successfully")
         else:

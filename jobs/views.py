@@ -14,7 +14,7 @@ from sklearn.metrics.pairwise import cosine_similarity
 import warnings
 warnings.filterwarnings('ignore')
     
-def ml_recommendation_system(job, top_n=5):
+def job_similar(job, top_n=5):
     try:
         # Preprocess and vectorize the text data
         category = job.category
@@ -59,8 +59,7 @@ def homepage(request):
     return render(request, "index.html", {"jobs": jobs})
 
 
-@login_required
-@user_passes_test(jobseeker_check)
+
 def job_list(request):
     category = CategoryForm(request.POST or None)
     type = TypeForm(request.POST or None)
@@ -68,7 +67,7 @@ def job_list(request):
     salary = SalaryForm(request.POST or None)
     date = timezone.now().date()
     jobs = Job.objects.all().order_by("-created_at")
-    paginator = Paginator(jobs,per_page = 3)
+    paginator = Paginator(jobs,per_page = 8)
     page_number = request.GET.get("page")
     try:
         page_obj = paginator.get_page(
@@ -85,8 +84,7 @@ def job_list(request):
         request, "job_list.html", {"jobs": page_obj, "date": date, "category": category, "type": type, "level": level, "salary": salary}
     )
     
-
-@login_required(login_url="login")
+@login_required()
 @user_passes_test(jobseeker_check)
 def job_detail(request, job_id):
     jobs = Job.objects.get(id=job_id)
@@ -94,7 +92,7 @@ def job_detail(request, job_id):
     date = timezone.now().date()
     user = request.user
     applications = Application.objects.filter(submitted_by=user, submitted_for=jobs)
-    similar_jobs = ml_recommendation_system(jobs, top_n=5)
+    similar_jobs = job_similar(jobs, top_n=5)
 
     return render(
         request, "details.html", {"jobs": jobs, "applications": applications, "all": all, "date": date, "similar_jobs": similar_jobs}
@@ -183,18 +181,6 @@ def filter_view(request):
             | Q(salary__contains=salary)
         )
 
-        print(filterjob)
-        paginator = Paginator(filterjob, per_page=4)
-        page_number = request.GET.get("page")
-        try:
-            page_obj = paginator.get_page(
-                page_number
-            )  # returns the desired page object
-        except PageNotAnInteger:
-            # if page_number is not an integer then assign the first page
-            page_obj = paginator.page(1)
-        except EmptyPage:
-            # if page is empty then return last page
-            page_obj = paginator.page(paginator.num_pages)
-        return render(request, "filter.html", {"jobs": page_obj, "category": categoryform, "type": typeform, "level": levelform, "salary": salaryform})
+     
+        return render(request, "filter.html", {"jobs": filterjob, "category": categoryform, "type": typeform, "level": levelform, "salary": salaryform})
     return render(request, "filter.html")

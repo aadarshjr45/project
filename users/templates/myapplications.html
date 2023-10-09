@@ -12,8 +12,8 @@
 
 {% if applications %}
 
-<section class="seekerprofile" style="background-color: #f5f5f7; height: auto;">
-    <div class="container" style="height: 100vh;">
+<section class="seekerprofile" style="background-color: #f5f5f7;">
+    <div class="container" style="height: 80vh;">
         <div class="pt-3 pb-2 mb-3 border-bottom">
             <h1 class="h5">My Applications</h1>
         </div>
@@ -28,7 +28,7 @@
                     <p class="fw-normal">Submitted For: {{ application.submitted_for }}</p>
                     <p class="fw-normal">Status: {{ application.status }}</p>
                     <p class="fw-normal">Submitted On: {{ application.submitted_on|date:"F d, Y" }}</p>
-                    <div class="mt-5" style="border-top: 0.1px solid #bfc3cb">
+                    <div class="mt-4" style="border-top: 0.1px solid #bfc3cb">
                         <br>
                         {% if application.status == "Pending" %}
                         <p class="fw-normal">Your application is in pending.</p>
@@ -67,9 +67,23 @@
 
 </section>
 
+
+
 {% else %}
-<p class="fw-normal">You have not applied for any jobs yet.</p>
+<section class="seekerprofile" style="background-color: #f5f5f7; height: auto;">
+    <div class="container" style="height: 100vh;">
+        <div class="pt-3 pb-2 mb-3 border-bottom">
+            <h1 class="h5">My Applications</h1>
+        </div>
+        {% include 'flashmessage.html' %}
+        <p class="fw-normal">You have not applied for any jobs yet.</p>
+
+    </div>
+
+</section>
 
 {% endif %}
+
+{% include 'footer.html' %}
 
 {% endblock content %}

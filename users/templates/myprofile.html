@@ -12,8 +12,8 @@
 
 {% include 'navbar.html' %}
 
-<section class="seekerprofile" style="background-color: #f5f5f7; height: 100vh;">
-    <div class="container">
+<section class="seekerprofile" style="background-color: #f5f5f7; height: auto;">
+    <div class="container" style="height: 80vh;">
         <div class="pt-3 pb-2 mb-3 border-bottom">
             <h1 class="h5">My Profile</h1>
         </div>
@@ -29,16 +29,16 @@
             <table class="table table-sm" style="text-align: left; width: auto; height: 1vh;">
                 <tbody>
                     <tr>
-                        <th style="text-align: justify; font-size: 18px;">Name </th>
-                        <td style="text-align: justify; font-size: 18px;">{{user.first_name}} {{ user.last_name }}</td>
+                        <th style="text-align: justify;">Name </th>
+                        <td style="text-align: justify;">{{user.first_name}} {{ user.last_name }}</td>
                     </tr>
                     <tr>
-                        <th style="text-align: justify; font-size: 18px;">Username </th>
-                        <td style="text-align: justify; font-size: 18px;">{{ user.username }}</td>
+                        <th style="text-align: justify;">Username </th>
+                        <td style="text-align: justify;">{{ user.username }}</td>
                     </tr>
                     <tr>
-                        <th style="text-align: justify; font-size: 18px;">Email </th>
-                        <td style="text-align: justify; font-size: 18px;">{{ user.email }}</td>
+                        <th style="text-align: justify;">Email </th>
+                        <td style="text-align: justify;">{{ user.email }}</td>
                     </tr>
                 </tbody>
             </table>
@@ -53,4 +53,7 @@
         </div>
     </div>
 </section>
+
+{% include 'footer.html' %}
+
 {% endblock content %}

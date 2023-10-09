@@ -46,6 +46,8 @@
 
 {% if searchtext %}
 
+
+{% if jobs %}
 <section class="card">
     <div class="container" style="display: inline-block;">
 
@@ -77,6 +79,30 @@
     </div>
 
 </section>
+{% else %}
+<section class="card">
+    <div class="container" style="display: inline-block;">
+
+        <div class="container" id="cardcontainer">
+
+            <div id="cardbox">
+
+                <div class="card-body">
+
+                    <h5 class="fw-normal">Job with your search text {{searchtext}} is not available</h5
+                        class="fw-normal fs-6">
+
+                </div>
+
+            </div>
+
+
+
+        </div>
+    </div>
+</section>
+{% endif %}
+
 
 {% else %}
 <section class="card">
@@ -88,7 +114,7 @@
 
                 <div class="card-body">
 
-                    <h5 class="fw-normal">Job with your search text is not available</h5 class="fw-normal fs-6">
+                    <h5 class="fw-normal">Enter something to search for jobs</h5 class="fw-normal fs-6">
 
                 </div>
 

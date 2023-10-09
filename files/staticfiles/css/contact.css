@@ -227,105 +227,20 @@
     padding-bottom: 1vh;
 }
 
- #cardcontainer {
-            padding-top: 1rem;
-            padding-bottom: 1rem;
-            border: 0.5px solid rgb(197, 195, 195);
-            border: 5px;
-            display: grid;
-            grid-gap: 1rem;
-            grid-template-columns: repeat(auto-fit, minmax(45vh, 1fr));
-            justify-content: center;
-        }
-
-        #cardbox {
-            border: 1px solid rgb(224, 218, 218);
-            border-radius: 5px;
-        }
-
-        #cardbox:hover {
-            box-shadow: rgba(40, 39, 39, 0.2) 0px 2px 8px 0px;
-
-        }
-
-        .searchcard {
-            border: none;
-            background-color: #F5f5f7;
-
-        }
-
-        .jobsearch {
-            text-align: center;
-            padding-top: 100px;
-            padding-bottom: 20px;
-        }
-
-        .jobsearch input {
-            width: 80%;
-            height: 40px;
-            padding: 1% 1% 1% 2%;
-            border-radius: 5px;
-            border: 1px solid rgb(197, 195, 195);
-            outline: none;
-            box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-        }
-
-        .jobsearch input:focus {
-            border: 2px solid #B6C6FF;
-            box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-
-        }
-
-        #searchcardcontainer {
-            padding-top: 0rem;
-            padding-bottom: 1rem;
-            display: grid;
-            grid-gap: 1rem;
-            grid-template-columns: repeat(auto-fit, minmax(20vh, 1fr));
-            justify-content: center;
-        }
-
-        #searchfilter select {
-            width: 100%;
-            height: 3.5vh;
-            border-radius: 5px;
-            padding-left: 8px;
-        }
-
-        #searchfilter input {
-            width: 100%;
-            height: 3.5vh;
-            border-radius: 5px;
-            background-color: #B6C6FF;
-        }
+#cardcontainer {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    border: 0.5px solid rgb(197, 195, 195);
+    display: grid;
+    grid-gap: 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    justify-content: center;
+}
 
 
-        #searchfilter button {
-            width: 100%;
-            height: 3.5vh;
-            border-radius: 5px;
-            background-color: #B6C6FF;
-            border: none;
-        }
+#cardbox:hover {
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
 
-        .filterbutton {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-        }
+}
 
-.morejobsearch {
-            text-align: center;
-            padding-top: 100px;
-            padding-bottom: 20px;
-        }
-
-   .contactus {
-        text-align: center;
-        padding-top: 100px;
-    }
-       .seekerprofile {
-            text-align: left;
-            padding-top: 100px;
-            padding-bottom: 20px;
-        }
+ 

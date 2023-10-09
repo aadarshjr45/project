@@ -12,15 +12,25 @@
 
 
 {% include 'navbar.html' %}
-<section class="morejobsearch" style="background-color: #f5f5f7; height: 100vh;">
+<section class="morejobsearch" style="background-color: #f5f5f7">
     <div class="container" id="morejobsearch">
 
         <div class="row g-5">
             <!-- ============================================================ left part section ================================================== -->
             <div class="col-md-7 col-lg-8">
 
-                <h3 class="mb-3" style="text-align: left;"> <img class="card-img-left example-card-img-responsive"
-                        src="{{jobs.logo.url}}" width="200px" height="200px"> {{jobs.company_name}} </h3>
+                <h3 class="mb-3" style="text-align: left;">
+                    {% if jobs.logo %}
+                    <img class="card-img-left example-card-img-responsive" src="{{jobs.logo.url}}" width="200px"
+                        height="200px">
+                    {% else %}
+                    <img class="card-img-left example-card-img-responsive" src="{% static 'empty.jpg' %}" width="190px"
+                        height="200px" alt="" />
+
+                    {% endif %}
+
+                    {{jobs.company_name}}
+                </h3>
                 <div class="table-responsive">
                     <table class="table table-sm" style="text-align: left;">
                         <tbody>

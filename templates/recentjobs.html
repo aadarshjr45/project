@@ -3,8 +3,6 @@
         display: block;
         text-decoration: none;
     }
-
-    
 </style>
 
 <section class="card">
@@ -12,15 +10,15 @@
     <div class="container" id="cardcontainer">
         {% for job in jobs %}
         <a href="{% url 'jobs:job_detail' job.id %}">
-            <div id="cardbox" style="border: 0.5px solid #bfc3cb; border-radius: 5px;">
+            <div id="cardbox">
 
                 <div class="card flex-row"><img class="card-img-left example-card-img-responsive" src="{{job.logo.url}}"
                         width="100px" height="120px" />
                     <div class="card-body">
                         <h4 class="fw-bold fs-5" style="color: #0d1e5c;">{{job.title}}</h4>
-                        <h4 class="fw-bold fs-6" >Category: {{job.category}}</h4>
-                        <h4 class="fw-bold fs-6" >Level:{{job.level}}</h4>
-                        <h4 class="fw-bold fs-6" >Type:{{job.type}}</h4>
+                        <h4 class="fw-bold fs-6">Category: {{job.category}}</h4>
+                        <h4 class="fw-bold fs-6">Level:{{job.level}}</h4>
+                        <h4 class="fw-bold fs-6">Type:{{job.type}}</h4>
                         <h5 class="fw-bolder fs-6">Company: {{ job.company_name }}</h5>
                     </div>
                 </div>
@@ -31,4 +29,3 @@
     </div>
 
 </section>
-

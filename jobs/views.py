@@ -55,8 +55,10 @@ def jobseeker_check(user):
 
 
 def homepage(request):
+    applications = Application.objects.all().count()
+    print(applications)
     jobs = Job.objects.order_by("-created_at")[:4]
-    return render(request, "index.html", {"jobs": jobs})
+    return render(request, "index.html", {"jobs": jobs, "applications": applications})
 
 
 
@@ -144,6 +146,11 @@ def search_view(request):
             Q(title__contains=searchtext)
             | Q(company_name__contains=searchtext)
             | Q(location__contains=searchtext)
+            | Q(category__contains=searchtext)    
+            | Q(type__contains=searchtext)    
+            | Q(level__contains=searchtext)    
+
+                
         )
         paginator = Paginator(searchresult, per_page=4)
         page_number = request.GET.get("page")

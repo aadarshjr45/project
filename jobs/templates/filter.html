@@ -3,6 +3,11 @@
 
 {% load static %}
 
+{% block title %}
+
+{% endblock title %}
+
+<title>Filter for {{jobs}}</title>
 
 {% block content %}
 <link rel="stylesheet" href="{% static 'staticfiles/css/joblist.css' %}">
@@ -58,22 +63,29 @@
 
 
             <div id="cardbox">
+                <a href="{% url 'jobs:job_detail' job.id %}" style="display: block; text-decoration: none;">
 
-                <div class="card flex-row"><img class="card-img-left example-card-img-responsive" src="{{job.logo.url}}"
-                        width="190px" height="200px" alt="" />
+                    {% if job.logo %}
+                    <div class="card flex-row"><img class="card-img-left example-card-img-responsive"
+                            src="{{job.logo.url}}" width="190px" height="200px" alt="" />
 
-                    <div class="card-body">
-                        <h4 class="fw-bold fs-5" style="color: #0d1e5c;"> {{job.title}} </h4>
-                        <h5 class="fw-bolder fs-6"> Company :{{job.company_name}} </h5>
-                        <h5 class="fw-normal fs-6"> Category: {{job.category}} </h5>
-                        <h5 class="fw-normal fs-6"> Level: {{job.level}} </h5>
-                        <h5 class="fw-normal fs-6"> Type: {{job.type}} </h5>
-                        <p><small>Valid Till: {{ job.application_valid}}</small></p>
-                        <h5 class="fw-normal fs-6"><a href="{% url 'jobs:job_detail' job.id %}"
-                                style="color: black;">More Details</a></h5>
-                    </div>
-                </div>
+                        {% else %}
 
+                        <div class="card flex-row"><img class="card-img-left example-card-img-responsive"
+                                src="{% static 'empty.jpg' %}" width="190px" height="200px" alt="" />
+                            {% endif %}
+
+                            <div class="card-body">
+                                <h4 class="fw-bold fs-5" style="color: #0d1e5c;"> {{job.title}} </h4>
+                                <h5 class="fw-bolder fs-6"> Company :{{job.company_name}} </h5>
+                                <h5 class="fw-normal fs-6"> Category: {{job.category}} </h5>
+                                <h5 class="fw-normal fs-6"> Level: {{job.level}} </h5>
+                                <h5 class="fw-normal fs-6"> Type: {{job.type}} </h5>
+                                <p><small>Valid Till: {{ job.application_valid}}</small></p>
+
+                            </div>
+                        </div>
+                </a>
             </div>
 
             {% endfor %}
@@ -96,7 +108,7 @@
 {% else %}
 
 <section class="card">
-    <div class="container" style="display: inline-block;">
+    <div class="container" style="display: inline-block; height: 40vh;">
 
         <div class="container" id="cardcontainer">
 
